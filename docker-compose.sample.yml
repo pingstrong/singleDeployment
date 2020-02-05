@@ -136,7 +136,7 @@ services:
     restart: always
     privileged: true
     networks:
-      - thinkpanx
+      - thinkpanax_net
 
   mysql8:
     image: mysql:${MYSQL8_VERSION}
