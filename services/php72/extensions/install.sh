@@ -598,6 +598,10 @@ if [[ -z "${EXTENSIONS##*,xlswriter,*}" ]]; then
     fi
 fi
 
+#base extension
+
+docker-php-ext-install bcmath
+
 if [ "${PHP_EXTENSIONS}" != "" ]; then
     apk del .build-deps \
     && docker-php-source delete
