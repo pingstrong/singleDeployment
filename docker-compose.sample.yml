@@ -260,7 +260,8 @@ services:
     restart: always
     ports:
       - ${ADMINER_HOST_PORT}:8080
-
+    networks:
+      - thinkpanax_net
 #  phpmyadmin:
 #  image: phpmyadmin/phpmyadmin:latest
 #    container_name: phpmyadmin
@@ -286,8 +287,8 @@ services:
     environment:
       - REDIS_1_HOST=redis
       - REDIS_1_PORT=6379
-      - ADMIN_USER=taoking
-      - ADMIN_PASS=taoking@123
+      - ADMIN_USER=${REDIS_ADMIN_USER}
+      - ADMIN_PASS=${REDIS_ADMIN_PASS}
       - TZ=$TZ
 
   mongodb:
