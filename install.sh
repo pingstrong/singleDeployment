@@ -151,5 +151,5 @@ sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bi
 #Download_Files ${Download_Mirror}/lib/tcmalloc/${TCMalloc_Ver}.tar.gz ${TCMalloc_Ver}.tar.gz
 sudo cp env.sample .env
 sudo cp docker-compose.sample.yml docker-compose.yml
-sudo docker-compose up -d
+docker-compose up -d
 #   ------ deploy service and code //end ------

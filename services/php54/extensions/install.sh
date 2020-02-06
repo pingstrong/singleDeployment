@@ -13,7 +13,8 @@ echo
 
 
 echo "---------- Install zip extension ----------"
-apt-get install -y zlib1g-dev unzip
+apt update
+apt-get install -y zlib1g-dev unzip apt-utils
 docker-php-ext-install zip
 
 
