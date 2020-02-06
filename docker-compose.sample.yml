@@ -26,31 +26,31 @@ services:
     networks:
       - thinkpanax_net
 
-  php74:
-    build:
-      context: ./services/php74
-      args:
-        PHP_VERSION: php:${PHP74_VERSION}-fpm-alpine
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        PHP_EXTENSIONS: ${PHP74_EXTENSIONS}
-        TZ: "$TZ"
-    container_name: php74
-    expose:
-      - 9501
-    extra_hosts:
-      - "www.site1.com:172.17.0.1"
-    volumes:
-      - ${SOURCE_DIR}:/www/:rw
-      - ${PHP74_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-      - ${PHP74_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ${PHP74_LOG_DIR}:/var/log/php
-      - ${DATA_DIR}/composer:/tmp/composer
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - thinkpanax_net
+  #php74:
+  #  build:
+  #    context: ./services/php74
+  #    args:
+  #      PHP_VERSION: php:${PHP74_VERSION}-fpm-alpine
+  #      CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+  #      PHP_EXTENSIONS: ${PHP74_EXTENSIONS}
+  #      TZ: "$TZ"
+  #  container_name: php74
+  #  expose:
+  #    - 9501
+  #  extra_hosts:
+  #    - "www.site1.com:172.17.0.1"
+  #  volumes:
+  #    - ${SOURCE_DIR}:/www/:rw
+  #    - ${PHP74_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+  #    - ${PHP74_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+  #    - ${PHP74_LOG_DIR}:/var/log/php
+  #    - ${DATA_DIR}/composer:/tmp/composer
+  #  restart: always
+  #  privileged: true
+  #  cap_add:
+  #    - SYS_PTRACE
+  #  networks:
+  #    - thinkpanax_net
   php73:
     build:
       context: ./services/php73
@@ -76,7 +76,31 @@ services:
       - SYS_PTRACE
     networks:
       - thinkpanax_net
-
+  php72:
+    build:
+      context: ./services/php72
+      args:
+        PHP_VERSION: php:${PHP72_VERSION}-fpm-alpine
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
+        TZ: "$TZ"
+    container_name: php72
+    expose:
+      - 9501
+    extra_hosts:
+      - "www.site1.com:172.17.0.1"
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+      - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP72_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer:/tmp/composer
+    restart: always
+    privileged: true
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - thinkpanax_net
 #  php56:
 #    build:
 #      context: ./services/php
@@ -100,26 +124,27 @@ services:
 #    networks:
 #      - thinkpanax_net
 
-#  php54:
-#    build:
-#      context: ./services/php54
-#      args:
-#        PHP_VERSION: php:${PHP54_VERSION}-fpm
-#        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-#        PHP_EXTENSIONS: ${PHP54_EXTENSIONS}
-#        TZ: "$TZ"
-#    container_name: php54
-#    volumes:
-#      - ${SOURCE_DIR}:/www/:rw
-#      - ${PHP54_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-#      - ${PHP54_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-#      - ${PHP54_LOG_DIR}:/var/log/php
-#      - ${DATA_DIR}/composer:/tmp/composer
-#    restart: always
-#    cap_add:
-#      - SYS_PTRACE
-#    networks:
-#      - thinkpanax_net
+  php54:
+    build:
+      context: ./services/php54
+      args:
+        PHP_VERSION: php:${PHP54_VERSION}-fpm
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${PHP54_EXTENSIONS}
+        TZ: "$TZ"
+    container_name: php54
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+      - ${PHP54_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP54_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP54_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer:/tmp/composer
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - thinkpanax_net
+
   mariadb:
     image: mariadb:${MARIADB_VERSION}
     container_name: mariadb
@@ -200,8 +225,8 @@ services:
       - ${DATA_DIR}/redis:/data/:rw
     restart: always
     privileged: true
-    #entrypoint: ["redis-server", "/etc/redis.conf"]
-    command: redis-server --port 6379 --requirepass taokin@2020  --appendonly yes
+    entrypoint: ["redis-server", "/etc/redis.conf"]
+    #command: redis-server --port 6379 --requirepass taokin2020  --appendonly yes
     environment:
       TZ: "$TZ"
     networks:
@@ -230,21 +255,26 @@ services:
 #       RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
 #    networks:
 #          - thinkpanax_net
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
+  adminer:
+    image: adminer
+    restart: always
     ports:
-      - "${PHPMYADMIN_HOST_PORT}:80"
-    volumes:
-      - ${PHPMYADMIN_USER_CONF_FILE}:/etc/phpmyadmin/config.user.inc.php:ro
-      - ${PHPMYADMIN_PHP_CONF_FILE}:/usr/local/etc/php/conf.d/php-phpmyadmin.ini:ro
-    networks:
-      - thinkpanax_net
-    environment:
-      - PMA_HOST=mariadb
-      - PMA_PORT=3306
-      - TZ=$TZ
+      - ${ADMINER_HOST_PORT}:8080
+
+#  phpmyadmin:
+#  image: phpmyadmin/phpmyadmin:latest
+#    container_name: phpmyadmin
+#    ports:
+#      - "${PHPMYADMIN_HOST_PORT}:80"
+#    volumes:
+#      - ${PHPMYADMIN_USER_CONF_FILE}:/etc/phpmyadmin/config.user.inc.php:ro
+#      - ${PHPMYADMIN_PHP_CONF_FILE}:/usr/local/etc/php/conf.d/php-phpmyadmin.ini:ro
+#    networks:
+#      - thinkpanax_net
+#    environment:
+#      - PMA_HOST=mariadb
+#      - PMA_PORT=3306
+#      - TZ=$TZ
 
   phpredisadmin:
     image: erikdubbelboer/phpredisadmin:latest

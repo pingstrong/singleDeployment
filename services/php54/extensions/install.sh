@@ -19,6 +19,12 @@ docker-php-ext-install zip
 
 export EXTENSIONS=",${PHP_EXTENSIONS},"
 
+if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
+    echo "---------- Install redis ----------"
+    printf "\n" | pecl install redis-4.3.0
+    docker-php-ext-enable redis
+fi
+
 if [ -z "${EXTENSIONS##*,gd,*}" ]; then
     echo "---------- Install gd ----------"
     apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
