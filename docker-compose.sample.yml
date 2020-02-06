@@ -290,6 +290,7 @@ services:
       - REDIS_1_PORT=6379
       - ADMIN_USER=${REDIS_ADMIN_USER}
       - ADMIN_PASS=${REDIS_ADMIN_PASS}
+      - REDIS_1_AUTH=${REDIS_ADMIN_AUTH}
       - TZ=$TZ
 
   mongodb:
