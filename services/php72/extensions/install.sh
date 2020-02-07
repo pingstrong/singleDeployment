@@ -528,9 +528,9 @@ fi
 
 if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     echo "---------- Install mongodb ----------"
-    installExtensionFromTgz mongodb-1.7.1
-    #pecl install mongodb
-    #docker-php-ext-enable mongodb
+    #installExtensionFromTgz mongodb-1.7.1
+    pecl install mongodb
+    docker-php-ext-enable mongodb
 fi
 
 if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
