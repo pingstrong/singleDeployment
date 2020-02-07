@@ -305,7 +305,7 @@ services:
       - ${DATA_DIR}/mongo:/data/db:rw
       - ${DATA_DIR}/mongo_key:/mongo:rw
     ports:
-       - "${MONGODB_HOST_PORT}:27017"
+       - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
     networks:
        - thinkpanax_net
     command:
@@ -319,7 +319,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - DB_HOST=mongodb
-      - DB_PORT=27017
+      - DB_PORT=${MONGODB_CONTAINER_PORT}
     networks:
       - thinkpanax_net
 
@@ -329,11 +329,14 @@ services:
     ports:
       - "${MONGOEXPRESS_PORT}:8081"
     environment:
+      - ME_CONFIG_MONGODB_PORT=${MONGODB_CONTAINER_PORT}
       - ME_CONFIG_MONGODB_SERVER="mongodb"
       - ME_CONFIG_BASICAUTH_USERNAME="user"
       - ME_CONFIG_BASICAUTH_PASSWORD="fairlypassword"
+    restart: always
     networks:
       - thinkpanax_net
+
 #  elasticsearch:
 #    build:
 #      context: ./services/elasticsearch
