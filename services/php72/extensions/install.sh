@@ -15,7 +15,7 @@ echo
 
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
-    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers
+    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers autoconf m4
 fi
 
 
@@ -528,9 +528,9 @@ fi
 
 if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     echo "---------- Install mongodb ----------"
-    #installExtensionFromTgz mongodb-1.7.1
-    pecl install mongodb
-    docker-php-ext-enable mongodb
+    installExtensionFromTgz mongodb-1.5.5
+    #pecl install mongodb-1.6.1
+    #docker-php-ext-enable mongodb
 fi
 
 if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
