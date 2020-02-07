@@ -137,6 +137,7 @@ sudo yum-config-manager \
 sudo yum install -y https://download.docker.com/linux/fedora/30/x86_64/stable/Packages/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
 sudo yum -y install docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
+sudo systemctl daemon-reload
 
 sudo curl -L "https://gitee.com/thinkpanax/dockerCompose/repository/archive/v1.25?format=tar.gz" -o ./v1.25.tar.gz
 sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
