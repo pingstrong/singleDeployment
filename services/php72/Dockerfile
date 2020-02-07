@@ -23,7 +23,7 @@ RUN apk --no-cache add tzdata \
 
 
 # Fix: https://github.com/docker-library/php/issues/240
-RUN if [ "${PHP_EXTENSIONS}" != "" ]; then \
+RUN if [ "${CONTAINER_PACKAGE_URL}" != "" ]; then \
     apk add gnu-libiconv libstdc++ --no-cache --repository http://${CONTAINER_PACKAGE_URL}/alpine/edge/community/ --allow-untrusted; \
     fi
 #RUN apk add gnu-libiconv libstdc++ --no-cache --repository http://${CONTAINER_PACKAGE_URL}/alpine/edge/community/ --allow-untrusted
