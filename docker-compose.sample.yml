@@ -317,6 +317,8 @@ services:
     container_name: adminmongo
     ports:
       - "${ADMINMONGO_HOST_PORT}:1234"
+    volumes:
+      - ${ADMINMONGO_CONF_FILE}:/config/app.json
     environment:
       - HOST=0.0.0.0
       - DB_HOST=mongodb
