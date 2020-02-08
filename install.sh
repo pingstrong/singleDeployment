@@ -140,7 +140,7 @@ sudo systemctl start docker
 sudo systemctl daemon-reload
 
 sudo curl -L "https://gitee.com/thinkpanax/dockerCompose/repository/archive/v1.25?format=tar.gz" -o ./v1.25.tar.gz
-sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && rm -rf dockerCompose
 #curl -L https://github.com/docker/compose/releases/download/v1.25.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 #chmod +x /usr/local/bin/docker-compose
 #

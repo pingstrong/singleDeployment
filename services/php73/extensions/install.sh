@@ -15,7 +15,7 @@ echo
 
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
-    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers autoconf m4
+    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers autoconf m4 libxml2-dev
 fi
 
 
