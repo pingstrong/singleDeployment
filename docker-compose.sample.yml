@@ -318,7 +318,7 @@ services:
     ports:
       - "${ADMINMONGO_HOST_PORT}:1234"
     volumes:
-      - ${ADMINMONGO_CONF_FILE}:/config/app.json
+      - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
     environment:
       - HOST=0.0.0.0
       - DB_HOST=mongodb

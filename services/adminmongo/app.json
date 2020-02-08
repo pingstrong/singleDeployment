@@ -2,9 +2,9 @@
     "app": {
         "host": "0.0.0.0",
         "port": 1234,
-        "password": "secureadminpassword",
+        "password": "taoking1688",
         "locale": "de",
-        "context": "dbApp",
+        "context": "taoKing",
         "monitoring": true
     }
 }
