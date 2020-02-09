@@ -189,8 +189,8 @@ services:
       MYSQL_USER: ${PERCONA_MYSQL_USER}
       MYSQL_PASSWORD: ${PERCONA_MYSQL_PASSWORD}
       MYSQL_DATABASE: ${PERCONA_MYSQL_DATABASE}
-      INIT_TOKUDB: true
-      INIT_ROCKSDB: true
+      INIT_TOKUDB: 1
+      INIT_ROCKSDB: 1
     ports:
       - "${PERCONA_PORT}:3306"
     volumes:
