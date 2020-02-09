@@ -93,7 +93,6 @@ RUN docker-php-ext-install \
     tokenizer \
     xml \
     zip \
-    readline \
     gmp
 
 # Install composer
@@ -106,6 +105,9 @@ RUN curl -o /usr/bin/composer https://mirrors.aliyun.com/composer/composer.phar 
 
 # Install PHP_CodeSniffer
 #RUN composer global require "squizlabs/php_codesniffer=*"
+
+# php image's www-data user uid & gid are 82, change them to 1000 (primary user)
+RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 # Cleanup dev dependencies
 RUN apk del -f .build-deps

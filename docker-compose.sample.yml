@@ -76,6 +76,8 @@ services:
       - SYS_PTRACE
     networks:
       - thinkpanax_net
+
+
   php72:
     build:
       context: ./services/php72
@@ -101,6 +103,8 @@ services:
       - SYS_PTRACE
     networks:
       - thinkpanax_net
+
+
   php56:
     build:
       context: ./services/php56
@@ -181,27 +185,27 @@ services:
       TZ: "$TZ"
 
 
-  percona-mysql8:
-    image: percona:${PERCONA_VERSION}
-    container_name: percona-mysql8
-    environment:
-      MYSQL_ROOT_PASSWORD: ${PERCONA_MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${PERCONA_MYSQL_USER}
-      MYSQL_PASSWORD: ${PERCONA_MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${PERCONA_MYSQL_DATABASE}
-      INIT_TOKUDB: 1
-      INIT_ROCKSDB: 1
-    ports:
-      - "${PERCONA_PORT}:3306"
-    volumes:
+  #percona-mysql8:
+  #  image: percona:${PERCONA_VERSION}
+  #  container_name: percona-mysql8
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: ${PERCONA_MYSQL_ROOT_PASSWORD}
+  #    MYSQL_USER: ${PERCONA_MYSQL_USER}
+  #    MYSQL_PASSWORD: ${PERCONA_MYSQL_PASSWORD}
+  #    MYSQL_DATABASE: ${PERCONA_MYSQL_DATABASE}
+  #    INIT_TOKUDB: 1
+  #    INIT_ROCKSDB: 1
+  #  ports:
+  #    - "${PERCONA_PORT}:3306"
+  #  volumes:
       #
-      - ${DATA_DIR}/percona:/var/lib/mysql
+  #    - ${DATA_DIR}/percona:/var/lib/mysql
       #
-      - ${PERCONA_CONF_FILE}:/etc/mysql/conf.d
-    restart: always
-    privileged: true
-    networks:
-      - thinkpanax_net
+  #    - ${PERCONA_CONF_FILE}:/etc/mysql/conf.d
+  #  restart: always
+  #  privileged: true
+  #  networks:
+  #    - thinkpanax_net
 
 #  mysql5:
 #    image: mysql:${MYSQL5_VERSION}
