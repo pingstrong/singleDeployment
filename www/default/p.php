@@ -88,3 +88,4 @@ function printExtensions()
     echo '</ol>';
 }
 
+phpinfo();
