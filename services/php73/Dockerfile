@@ -60,8 +60,8 @@ RUN pecl install \
     redis-5.1.1 \
     swoole-4.4.15 \
     mongodb-1.6.1 \
-    yaf-3.0.9 \
-    xdebug
+    yaf-3.0.9
+
 
 # Enable PECL and PEAR extensions
 RUN docker-php-ext-enable \
@@ -69,8 +69,7 @@ RUN docker-php-ext-enable \
     redis \
     swoole \
     mongodb \
-    yaf \
-    xdebug
+    yaf
 
 # Configure php extensions
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
