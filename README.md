@@ -316,7 +316,11 @@ Redis连接信息如下：
 3. 增强redis访问的安全策略
 
 
-## License
-MIT
+## php定时器
+
+* * * * * docker exec deployment_php72_1 php /www/think every  >> /www/www/linsong0823.xyz/cron.log  2>&1
+
+#随时提取docker的容器ID或者名称
+* * * * * docker exec `docker ps -a | grep '9000/tcp' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
 
 

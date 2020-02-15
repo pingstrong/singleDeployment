@@ -1,16 +1,64 @@
 version: "3"
 services:
-  nginx:
+
+  haproxy:
+    image: ${HAPROXY_VERSION}
+    volumes:
+      - ${HAPROXY_CONF_FILE}:/usr/local/etc/haproxy/haproxy.cfg # haproxy的配置文件路径
+    links:
+      - nginx_node1
+      - nginx_node2
+    ports:
+      - "8080:80"  # 端口转换
+    expose:
+      - 80   # haproxy对外暴露的端口
+    networks:
+      - thinkpanax_net
+
+  nginx_node1:
     build:
       context: ./services/nginx
       args:
         NGINX_VERSION: ${NGINX_VERSION}
         CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
         NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
-    container_name: nginx
-    ports:
-      - "${NGINX_HTTP_HOST_PORT}:80"
-      - "${NGINX_HTTPS_HOST_PORT}:443"
+    container_name: nginx_node1
+    #ports:
+    #  - "${NGINX_HTTP_HOST_PORT}:80"
+    #  - "${NGINX_HTTPS_HOST_PORT}:443"
+    expose:
+      - "80"
+      - "443"
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+      - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
+      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
+      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      - ${NGINX_FASTCGI_PHP_CONF}:/etc/nginx/fastcgi-php.conf:ro
+      - ${NGINX_FASTCGI_PARAMS}:/etc/nginx/fastcgi_params:ro
+      - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
+    environment:
+      TZ: "$TZ"
+    restart: always
+    privileged: true
+    networks:
+      - thinkpanax_net
+
+
+  nginx_node2:
+    build:
+      context: ./services/nginx
+      args:
+        NGINX_VERSION: ${NGINX_VERSION}
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
+    container_name: nginx_node2
+    #ports:
+    #  - "${NGINX_HTTP_HOST_PORT}:80"
+    #  - "${NGINX_HTTPS_HOST_PORT}:443"
+    expose:
+      - "80"
+      - "443"
     volumes:
       - ${SOURCE_DIR}:/www/:rw
       - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
@@ -51,6 +99,8 @@ services:
   #    - SYS_PTRACE
   #  networks:
   #    - thinkpanax_net
+
+
   php73:
     build:
       context: ./services/php73
