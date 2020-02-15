@@ -318,9 +318,16 @@ Redis连接信息如下：
 
 ## php定时器
 
-* * * * * docker exec deployment_php72_1 php /www/think every  >> /www/www/linsong0823.xyz/cron.log  2>&1
+* * * * * docker exec php72_crontab php /www/think every  >> /www/www/linsong0823.xyz/cron.log  2>&1
 
 #随时提取docker的容器ID或者名称
-* * * * * docker exec `docker ps -a | grep '9000/tcp' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
+* * * * * docker exec `docker ps -a | grep 'php72_crontab' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
 
 
+##负载均衡、高并发
+
+1、采用docker-compose scale server=num 扩展服务容器数量
+
+    docker-compose up --scale php72=10 -d
+2、内置swarm集群管理
+3、第三方集群编排工具kubernetes
