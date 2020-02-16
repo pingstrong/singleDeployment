@@ -514,58 +514,58 @@ gitlab:
   networks:
     - thinkpanax_net
 
-  zentao:
-    image: idoop/zentao:latest
-    container_name: zentao
-    #ports:
-    #  - '3080:80'
-    #  - '3443:3306'
-    expose:
-      - 80
-      - 3306
-    volumes:
-      - ${ZENTAO_DATA_DIR}:/opt/zbox/:rw
-    environment:
-      - TZ="$TZ"
-      - ADMINER_USER=${ZENTAO_ADMINER_USER}
-      - ADMINER_PASSWD=${ZENTAO_ADMINER_PASSWD}
-      - BIND_ADDRESS=${ZENTAO_BIND_ADDRESS}
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - thinkpanax_net
+zentao:
+  image: idoop/zentao:latest
+  container_name: zentao
+  #ports:
+  #  - '3080:80'
+  #  - '3443:3306'
+  expose:
+    - 80
+    - 3306
+  volumes:
+    - ${ZENTAO_DATA_DIR}:/opt/zbox/:rw
+  environment:
+    - TZ="$TZ"
+    - ADMINER_USER=${ZENTAO_ADMINER_USER}
+    - ADMINER_PASSWD=${ZENTAO_ADMINER_PASSWD}
+    - BIND_ADDRESS=${ZENTAO_BIND_ADDRESS}
+  restart: always
+  privileged: true
+  cap_add:
+    - SYS_PTRACE
+  networks:
+    - thinkpanax_net
 
-  yapi:
-    image: thinkpanax/yapi:latest
-    container_name: yapi
-    #ports:
-    #  - 8069:3000
-    expose:
-      - 3000
-    #volumes:
-    #  - ${YAPI_DATA_DIR}:/opt/:rw
-    environment:
-      - YAPI_ADMIN_ACCOUNT=${YAPI_ADMIN_ACCOUNT}
-      - YAPI_ADMIN_PASSWORD=${YAPI_ADMIN_PASSWORD}
-      - YAPI_CLOSE_REGISTER=${YAPI_CLOSE_REGISTER}
-      - YAPI_DB_SERVERNAME=mongodb
-      - YAPI_DB_PORT=27017
-      - YAPI_DB_DATABASE=yapi
-      - YAPI_MAIL_ENABLE=false
-      - YAPI_LDAP_LOGIN_ENABLE=false
-      - YAPI_PLUGINS=[]
-    depends_on:
-      - mongodb
-    links:
-      - mongodb
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - thinkpanax_net
+yapi:
+  image: thinkpanax/yapi:latest
+  container_name: yapi
+  #ports:
+  #  - 8069:3000
+  expose:
+    - 3000
+  #volumes:
+  #  - ${YAPI_DATA_DIR}:/opt/:rw
+  environment:
+    - YAPI_ADMIN_ACCOUNT=${YAPI_ADMIN_ACCOUNT}
+    - YAPI_ADMIN_PASSWORD=${YAPI_ADMIN_PASSWORD}
+    - YAPI_CLOSE_REGISTER=${YAPI_CLOSE_REGISTER}
+    - YAPI_DB_SERVERNAME=mongodb
+    - YAPI_DB_PORT=27017
+    - YAPI_DB_DATABASE=yapi
+    - YAPI_MAIL_ENABLE=false
+    - YAPI_LDAP_LOGIN_ENABLE=false
+    - YAPI_PLUGINS=[]
+  depends_on:
+    - mongodb
+  links:
+    - mongodb
+  restart: always
+  privileged: true
+  cap_add:
+    - SYS_PTRACE
+  networks:
+    - thinkpanax_net
 
 ############################################
 
