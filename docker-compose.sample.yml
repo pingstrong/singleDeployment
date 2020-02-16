@@ -3,6 +3,7 @@ services:
 
   haproxy:
     image: ${HAPROXY_VERSION}
+    container_name: haproxy
     volumes:
       - ${HAPROXY_CONF_FILE}:/usr/local/etc/haproxy/haproxy.cfg # haproxy的配置文件路径
     links:
