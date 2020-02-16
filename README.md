@@ -324,7 +324,7 @@ Redis连接信息如下：
 * * * * * docker exec `docker ps -a | grep 'php72_crontab' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
 
 
-##负载均衡、高并发
+## 负载均衡、高并发
 
 1、采用docker-compose scale server=num 扩展服务容器数量
 
