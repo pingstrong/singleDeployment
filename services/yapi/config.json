@@ -1,0 +1,38 @@
+{
+    "port": "3000",
+    "adminAccount": "dev@taoking.com",
+    "adminPassword":"taoking1688...",
+    "closeRegister":false,
+    "db": {
+        "servername": "mongodb",
+        "DATABASE": "yapi",
+        "port": 27017,
+        "user": "taoking",
+        "pass": "taoking1688..",
+        "authSource": "admin"
+
+    },
+    "mail": {
+            "enable": false,
+            "host": "smtp.163.com",
+            "port": 465,
+            "from": "***@163.com",
+            "auth": {
+            "user": "***@163.com",
+            "pass": "*****"
+            }
+    },
+    "ldapLogin": {
+        "enable": false,
+        "server": "ldap://l-ldapt1.com",
+        "baseDn": "CN=Admin,CN=Users,DC=test,DC=com",
+        "bindPassword": "password123",
+        "searchDn": "OU=UserContainer,DC=test,DC=com",
+        "searchStandard": "mail",
+        "emailPostfix": "@163.com",
+        "emailKey": "mail",
+        "usernameKey": "name"
+     },
+
+     "plugins":[]
+}
