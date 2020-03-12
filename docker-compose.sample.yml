@@ -120,6 +120,7 @@ services:
     extra_hosts:
       - "www.site1.com:172.17.0.1"
     volumes:
+      - /etc/localtime:/etc/localtime
       - ${SOURCE_DIR}:/www/:rw
       - ${PHP73_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
       - ${PHP73_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
@@ -140,6 +141,7 @@ services:
     extra_hosts:
       - "www.site1.com:172.17.0.1"
     volumes:
+      - /etc/localtime:/etc/localtime
       - ${SOURCE_DIR}:/www/:rw
       - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
       - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
@@ -167,6 +169,7 @@ services:
     extra_hosts:
       - "www.site1.com:172.17.0.1"
     volumes:
+      - /etc/localtime:/etc/localtime
       - ${SOURCE_DIR}:/www/:rw
       - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
       - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
@@ -192,6 +195,7 @@ services:
     expose:
       - 9501
     volumes:
+      - /etc/localtime:/etc/localtime
       - ${SOURCE_DIR}:/www/:rw
       - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
       - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
