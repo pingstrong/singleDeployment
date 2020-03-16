@@ -15,8 +15,10 @@ services:
     ports:
       - "${HAPROXY_PORT}:80"  # 端口转换
       - "${HAPROXY_DBS_PORT}:8888"
+      - "443:443"
     expose:
       - 80   # haproxy对外暴露的端口
+      - 443
     networks:
       - thinkpanax_net
 
