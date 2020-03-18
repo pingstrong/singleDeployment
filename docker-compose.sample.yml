@@ -19,6 +19,7 @@ services:
     expose:
       - 80   # haproxy对外暴露的端口
       - 443
+    restart: always
     networks:
       - thinkpanax_net
 
@@ -415,6 +416,7 @@ services:
       - ${DATA_DIR}/mongo_key:/mongo:rw
     ports:
        - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
+    restart: always
     networks:
        - thinkpanax_net
     command:
