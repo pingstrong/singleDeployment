@@ -92,6 +92,7 @@ RUN docker-php-ext-install \
     tokenizer \
     xml \
     zip \
+    mysqli \
     gmp
 
 # Install composer
