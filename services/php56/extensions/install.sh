@@ -71,6 +71,7 @@ installExtensionFromTgz()
 
 if [[ -z "${EXTENSIONS##*,pdo_mysql,*}" ]]; then
     echo "---------- Install pdo_mysql ----------"
+
     docker-php-ext-install ${MC} pdo_mysql
 fi
 
@@ -82,6 +83,7 @@ fi
 if [[ -z "${EXTENSIONS##*,mysqli,*}" ]]; then
     echo "---------- Install mysqli ----------"
 	docker-php-ext-install ${MC} mysqli
+    docker-php-ext-install mysql
 fi
 
 if [[ -z "${EXTENSIONS##*,mbstring,*}" ]]; then

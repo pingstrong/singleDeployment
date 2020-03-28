@@ -58,6 +58,7 @@ fi
 if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
     echo "---------- Install mysqli ----------"
 	docker-php-ext-install mysqli
+    docker-php-ext-install mysql
 fi
 
 if [ -z "${EXTENSIONS##*,mbstring,*}" ]; then
