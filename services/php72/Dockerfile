@@ -94,7 +94,7 @@ RUN docker-php-ext-install \
     xml \
     zip \
     mysqli \
-    mysql \
+    #mysql \
     gmp
 
 # Install composer
