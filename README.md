@@ -2,12 +2,12 @@ DockerPHP（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + Ela
 
 -----------------------------------
 使用前请联系作者：thinkpanax@163.com
-微信：Facebooke
+微信V：Facebooke
 -----------------------------------
 
 项目特点：
 
-. 支持**多版本PHP**共存，可任意切换（PHP5.4、PHP5.6、PHP7.1、PHP7.2、PHP7.3)
+. 支持**多版本PHP**共存，可任意切换（PHP5.4、PHP5.6、PHP7.1、PHP7.2、PHP7.3、PHP7.4)
 . 支持绑定**任意多个域名**
 . 支持**HTTPS和HTTP/2**
 . **PHP源代码、MySQL数据、配置文件、日志文件**都可在Host中直接修改查看
@@ -309,22 +309,22 @@ Redis连接信息如下：
 - port: `6379`
 
 
-## 7.在正式环境中安全使用
+### 7.在正式环境中安全使用
 要在正式环境中使用，请：
 1. 在php.ini中关闭XDebug调试
 2. 增强MySQL数据库访问的安全策略
 3. 增强redis访问的安全策略
 
 
-## php定时器
+### php定时器
 
-* * * * * docker exec php72_crontab php /www/think every  >> /www/www/linsong0823.xyz/cron.log  2>&1
+* * * * * docker exec php72_crontab  sh -c "cd /path-to-your-project && php artisan schedule:run  >> schedule_run.log  2>&1"
 
 #随时提取docker的容器ID或者名称
 * * * * * docker exec `docker ps -a | grep 'php72_crontab' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
 
 
-## 负载均衡、高并发
+### 负载均衡、高并发
 
 1、采用docker-compose scale server=num 扩展服务容器数量
 
