@@ -1,7 +1,7 @@
 DockerPHP（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + ElasticSearch +  RabbitMQ）是一款全功能的PHP环境部署服务。
 
 -----------------------------------
-使用前请联系作者：thinkpanax@163.com
+使用前请联系作者：pingstrong@163.com
 微信V：Facebooke
 -----------------------------------
 

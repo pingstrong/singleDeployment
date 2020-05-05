@@ -577,6 +577,24 @@ services:
   #    - SYS_PTRACE
   #  networks:
   #    - thinkpanax_net
+  
+  ossrs:
+      image: ossrs/srs:latest
+      container_name: ossrs
+      ports:
+        - "${OSSRS_PUBLISH_PORT}:1935"
+        - "${OSSRS_API_PORT}:1985"
+        - "${OSSRS_HTTP_PORT}:8080"
+      volumes:
+        - ${OSSRS_CONF_PATH}:/usr/local/srs/conf/
+        - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
+        #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
+      #environment:
+      #  - HOST=0.0.0.0
+      #  - DB_HOST=mongodb
+      #  - DB_PORT=${MONGODB_CONTAINER_PORT}
+      networks:
+        - thinkpanax_net
 
 ############################################
 
