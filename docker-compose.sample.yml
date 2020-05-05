@@ -586,7 +586,7 @@ services:
         - "${OSSRS_API_PORT}:1985"
         - "${OSSRS_HTTP_PORT}:8080"
       volumes:
-        - ${OSSRS_CONF_PATH}:/usr/local/srs/conf/
+        - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
         - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
         #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
       #environment:
