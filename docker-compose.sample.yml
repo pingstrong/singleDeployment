@@ -21,7 +21,7 @@ services:
       - 443
     restart: always
     networks:
-      - thinkpanax_net
+      - spring_net
 
   nginx:
     build:
@@ -50,7 +50,7 @@ services:
     restart: always
     privileged: true
     networks:
-      - thinkpanax_net
+      - spring_net
 
 
   nginx_node2:
@@ -80,7 +80,7 @@ services:
     restart: always
     privileged: true
     networks:
-      - thinkpanax_net
+      - spring_net
 
   #php74:
   #  build:
@@ -106,7 +106,7 @@ services:
   #  cap_add:
   #    - SYS_PTRACE
   #  networks:
-  #    - thinkpanax_net
+  #    - spring_net
 
 
   php73:
@@ -134,7 +134,7 @@ services:
     cap_add:
       - SYS_PTRACE
     networks:
-      - thinkpanax_net
+      - spring_net
 
   php72_crontab:
     image: thinkpanax/php72:v1.0.1
@@ -155,7 +155,7 @@ services:
     cap_add:
       - SYS_PTRACE
     networks:
-      - thinkpanax_net
+      - spring_net
 
 
   php72:
@@ -183,7 +183,7 @@ services:
     cap_add:
       - SYS_PTRACE
     networks:
-      - thinkpanax_net
+      - spring_net
 
 
   php56:
@@ -209,7 +209,7 @@ services:
     cap_add:
       - SYS_PTRACE
     networks:
-      - thinkpanax_net
+      - spring_net
 
 #  php54:
 #    build:
@@ -230,7 +230,7 @@ services:
 #    cap_add:
 #      - SYS_PTRACE
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
   mariadb:
     image: mariadb:${MARIADB_VERSION}
@@ -249,7 +249,7 @@ services:
     restart: always
     privileged: true
     networks:
-      - thinkpanax_net
+      - spring_net
 
   mysql8:
     image: mysql:${MYSQL8_VERSION}
@@ -262,7 +262,7 @@ services:
     restart: always
     privileged: true
     networks:
-      - thinkpanax_net
+      - spring_net
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL8_ROOT_PASSWORD}"
       TZ: "$TZ"
@@ -288,7 +288,7 @@ services:
   #  restart: always
   #  privileged: true
   #  networks:
-  #    - thinkpanax_net
+  #    - spring_net
 
 #  mysql5:
 #    image: mysql:${MYSQL5_VERSION}
@@ -301,7 +301,7 @@ services:
 #    restart: always
 #    privileged: true
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 #    environment:
 #      MYSQL_ROOT_PASSWORD: "${MYSQL5_ROOT_PASSWORD}"
 #      TZ: "$TZ"
@@ -323,7 +323,7 @@ services:
 #    environment:
 #      TZ: "$TZ"
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
   redis:
     image: redis:${REDIS_VERSION}
@@ -341,7 +341,7 @@ services:
     environment:
       TZ: "$TZ"
     networks:
-      - thinkpanax_net
+      - spring_net
 
 #  memcached:
 #    image: memcached:${MEMCACHED_VERSION}
@@ -351,7 +351,7 @@ services:
 #    environment:
 #       MEMCACHED_CACHE_SIZE: "${MEMCACHED_CACHE_SIZE}"
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
 #  rabbitmq:
 #    image: rabbitmq:${RABBITMQ_VERSION}
@@ -365,7 +365,7 @@ services:
 #       RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
 #       RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
 #    networks:
-#          - thinkpanax_net
+#          - spring_net
   adminer:
     image: adminer
     container_name: adminer
@@ -373,7 +373,7 @@ services:
     ports:
       - ${ADMINER_HOST_PORT}:8080
     networks:
-      - thinkpanax_net
+      - spring_net
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -384,7 +384,7 @@ services:
       - ${PHPMYADMIN_USER_CONF_FILE}:/etc/phpmyadmin/config.user.inc.php:ro
       - ${PHPMYADMIN_PHP_CONF_FILE}:/usr/local/etc/php/conf.d/php-phpmyadmin.ini:ro
     networks:
-      - thinkpanax_net
+      - spring_net
     environment:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
@@ -396,7 +396,7 @@ services:
     ports:
       - "${REDISMYADMIN_HOST_PORT}:80"
     networks:
-      - thinkpanax_net
+      - spring_net
     environment:
       - REDIS_1_HOST=redis
       - REDIS_1_PORT=6379
@@ -420,7 +420,7 @@ services:
     restart: always
     privileged: true
     networks:
-       - thinkpanax_net
+       - spring_net
     command:
        --auth
 
@@ -436,7 +436,7 @@ services:
       - DB_HOST=mongodb
       - DB_PORT=${MONGODB_CONTAINER_PORT}
     networks:
-      - thinkpanax_net
+      - spring_net
 
 #  mongo-express:
 #    image: mongo-express
@@ -452,7 +452,7 @@ services:
 #      - ME_CONFIG_BASICAUTH_PASSWORD="fairlypassword"
 #    restart: always
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
 #  elasticsearch:
 #    build:
@@ -522,7 +522,7 @@ services:
 #    cap_add:
 #      - SYS_PTRACE
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
 ###  禅道默认管理员账号密码  admin/123456
 #  zentao:
@@ -546,7 +546,7 @@ services:
 #    cap_add:
 #      - SYS_PTRACE
 #    networks:
-#      - thinkpanax_net
+#      - spring_net
 
   #yapi:
   #  image: thinkpanax/yapi:v1.0.1
@@ -576,7 +576,7 @@ services:
   #  cap_add:
   #    - SYS_PTRACE
   #  networks:
-  #    - thinkpanax_net
+  #    - spring_net
   
   ossrs:
       image: ossrs/srs:latest
@@ -594,9 +594,21 @@ services:
       #  - DB_HOST=mongodb
       #  - DB_PORT=${MONGODB_CONTAINER_PORT}
       networks:
-        - thinkpanax_net
-
+        - spring_net
+  portainer:
+      container_name: portainer
+      image: portainer/portainer
+      restart: always
+      ports:
+        - "${PORTAINER_PORT}:9000"
+      command: -H unix:///var/run/docker.sock
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      networks: 
+        - spring_net
 ############################################
-
+volumes:
+  portainer_data:
 networks:
-  thinkpanax_net:
+  spring_net:
