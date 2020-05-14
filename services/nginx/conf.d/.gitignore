@@ -2,3 +2,6 @@
 !.gitignore
 !certs/localhost/
 !localhost.conf
+!laravel.conf.example
+!normal.conf.example
+!proxy.conf.example
