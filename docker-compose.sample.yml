@@ -385,6 +385,7 @@ services:
       - ${PHPMYADMIN_PHP_CONF_FILE}:/usr/local/etc/php/conf.d/php-phpmyadmin.ini:ro
     networks:
       - spring_net
+    restart: always
     environment:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
@@ -577,7 +578,7 @@ services:
   #    - SYS_PTRACE
   #  networks:
   #    - spring_net
-  
+
   ossrs:
       image: ossrs/srs:latest
       container_name: ossrs
@@ -593,8 +594,10 @@ services:
       #  - HOST=0.0.0.0
       #  - DB_HOST=mongodb
       #  - DB_PORT=${MONGODB_CONTAINER_PORT}
+      restart: always
       networks:
         - spring_net
+
   portainer:
       container_name: portainer
       image: portainer/portainer
@@ -605,8 +608,10 @@ services:
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - portainer_data:/data
-      networks: 
+      networks:
         - spring_net
+
+
 ############################################
 volumes:
   portainer_data:
