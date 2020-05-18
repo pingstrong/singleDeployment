@@ -64,7 +64,7 @@ Download_Files()
 sudo yum install -y epel-release
 sudo yum -y update
 echo "[+] Yum installing dependent packages..."
-for packages in git vim httpd-tools screen make wget make cmake gcc gcc-c++ gcc-g77  file  autoconf  wget crontabs  unzip tar curl curl-devel openssl openssl-devel net-tools;
+for packages in git vim httpd-tools iftop lsof screen make wget make cmake gcc gcc-c++ gcc-g77  file  autoconf  wget crontabs  unzip tar curl curl-devel openssl openssl-devel net-tools;
 do yum -y install $packages; done
 #   ------ install tools //end ------
 
