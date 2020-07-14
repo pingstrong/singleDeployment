@@ -608,6 +608,8 @@ services:
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - portainer_data:/data
+      environment:
+         - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
       networks:
         - spring_net
 
