@@ -602,8 +602,8 @@ services:
       container_name: portainer
       image: portainer/portainer
       restart: always
-      ports:
-        - "${PORTAINER_PORT}:9000"
+      #ports:
+      #  - "${PORTAINER_PORT}:9000"
       command: -H unix:///var/run/docker.sock
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
