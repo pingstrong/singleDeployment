@@ -24,12 +24,13 @@ services:
       - spring_net
 
   nginx:
-    build:
-      context: ./services/nginx
-      args:
-        NGINX_VERSION: ${NGINX_VERSION}
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
+    #build:
+    #  context: ./services/nginx
+    #  args:
+    #    NGINX_VERSION: ${NGINX_VERSION}
+    #    CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+    #    NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
+    image: pingstrong/nginx:v1
     container_name: nginx
     #ports:
     #  - "${NGINX_HTTP_HOST_PORT}:80"
@@ -54,12 +55,7 @@ services:
 
 
   nginx_node2:
-    build:
-      context: ./services/nginx
-      args:
-        NGINX_VERSION: ${NGINX_VERSION}
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
+    image: pingstrong/nginx:v1
     container_name: nginx_node2
     #ports:
     #  - "${NGINX_HTTP_HOST_PORT}:80"
@@ -110,13 +106,14 @@ services:
 
 
   php73:
-    build:
-      context: ./services/php73
-      args:
-        PHP_VERSION: php:${PHP73_VERSION}-fpm-alpine
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        PHP_EXTENSIONS: ${PHP73_EXTENSIONS}
-        TZ: "$TZ"
+    #build:
+    #  context: ./services/php73
+    #  args:
+    #    PHP_VERSION: php:${PHP73_VERSION}-fpm-alpine
+    #    CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+    #    PHP_EXTENSIONS: ${PHP73_EXTENSIONS}
+    #    TZ: "$TZ"
+    image: pingstrong/php73:v1
     container_name: php73
     expose:
       - 9501
@@ -137,7 +134,8 @@ services:
       - spring_net
 
   php72_crontab:
-    image: thinkpanax/php72:v1.0.1
+    
+    image: pingstrong/php72:v1
     container_name: php72_crontab
     expose:
       - 9501
@@ -159,13 +157,14 @@ services:
 
 
   php72:
-    build:
-      context: ./services/php72
-      args:
-        PHP_VERSION: php:${PHP72_VERSION}-fpm-alpine
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
-        TZ: "$TZ"
+    #build:
+    #  context: ./services/php72
+    #  args:
+    #    PHP_VERSION: php:${PHP72_VERSION}-fpm-alpine
+    #    CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+    #    PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
+    #    TZ: "$TZ"
+    image: pingstrong/php72:v1
     container_name: php72
     expose:
       - 9501
@@ -187,13 +186,14 @@ services:
 
 
   php56:
-    build:
-      context: ./services/php56
-      args:
-        PHP_VERSION: php:${PHP56_VERSION}-fpm-alpine
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        PHP_EXTENSIONS: ${PHP56_EXTENSIONS}
-        TZ: "$TZ"
+    #build:
+    #  context: ./services/php56
+    #  args:
+    #    PHP_VERSION: php:${PHP56_VERSION}-fpm-alpine
+    #    CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+    #    PHP_EXTENSIONS: ${PHP56_EXTENSIONS}
+    #    TZ: "$TZ"
+    image: pingstrong/php56:v1
     container_name: php56
     expose:
       - 9501
