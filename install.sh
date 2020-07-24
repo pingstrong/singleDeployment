@@ -146,6 +146,12 @@ sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bi
 #
 #firewall-cmd --permanent --add-masquerade
 
+#vi /etc/docker/daemon.json
+#{
+#“registry-mirrors”: [“https://registry.docker-cn.com“]
+#}
+#ystemctl daemon-reload
+#systemctl restart docker
 #   ------  install docker //end ------
 
 #   ---- deploy service and code //start ------

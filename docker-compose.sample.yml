@@ -54,29 +54,29 @@ services:
       - spring_net
 
 
-  nginx_node2:
-    image: pingstrong/nginx:v1
-    container_name: nginx_node2
+  #nginx_node2:
+  #  image: pingstrong/nginx:v1
+  #  container_name: nginx_node2
     #ports:
     #  - "${NGINX_HTTP_HOST_PORT}:80"
     #  - "${NGINX_HTTPS_HOST_PORT}:443"
-    expose:
-      - "80"
-      - "443"
-    volumes:
-      - ${SOURCE_DIR}:/www/:rw
-      - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
-      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
-      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
-      - ${NGINX_FASTCGI_PHP_CONF}:/etc/nginx/fastcgi-php.conf:ro
-      - ${NGINX_FASTCGI_PARAMS}:/etc/nginx/fastcgi_params:ro
-      - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
-    environment:
-      TZ: "$TZ"
-    restart: always
-    privileged: true
-    networks:
-      - spring_net
+ #   expose:
+ #     - "80"
+   #   - "443"
+   # volumes:
+    #  - ${SOURCE_DIR}:/www/:rw
+    #  - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
+     # - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
+      #- ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      #- ${NGINX_FASTCGI_PHP_CONF}:/etc/nginx/fastcgi-php.conf:ro
+      #- ${NGINX_FASTCGI_PARAMS}:/etc/nginx/fastcgi_params:ro
+      #- ${NGINX_LOG_DIR}:/var/log/nginx/:rw
+    #environment:
+   #   TZ: "$TZ"
+    #restart: always
+   # privileged: true
+   # networks:
+    #  - spring_net
 
   #php74:
   #  build:
@@ -133,27 +133,27 @@ services:
     networks:
       - spring_net
 
-  php72_crontab:
+  #php72_crontab:
     
-    image: pingstrong/php72:v1
-    container_name: php72_crontab
-    expose:
-      - 9501
-    extra_hosts:
-      - "www.site1.com:172.17.0.1"
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - ${SOURCE_DIR}:/www/:rw
-      - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ${PHP72_LOG_DIR}:/var/log/php
-      - ${DATA_DIR}/composer:/tmp/composer
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - spring_net
+   # image: pingstrong/php72:v1
+   # container_name: php72_crontab
+   # expose:
+    #  - 9501
+   # extra_hosts:
+    #  - "www.site1.com:172.17.0.1"
+   # volumes:
+    #  - /etc/localtime:/etc/localtime
+    #  - ${SOURCE_DIR}:/www/:rw
+    #  - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+    #  - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+     # - ${PHP72_LOG_DIR}:/var/log/php
+    #  - ${DATA_DIR}/composer:/tmp/composer
+    #restart: always
+    #privileged: true
+    #cap_add:
+     # - SYS_PTRACE
+  #  networks:
+   #   - spring_net
 
 
   php72:
@@ -251,21 +251,21 @@ services:
     networks:
       - spring_net
 
-  mysql8:
-    image: mysql:${MYSQL8_VERSION}
-    container_name: mysql8
-    ports:
-      - "${MYSQL8_HOST_PORT}:3306"
-    volumes:
-      - ${MYSQL8_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
-      - ${DATA_DIR}/mysql8:/var/lib/mysql/:rw
-    restart: always
-    privileged: true
-    networks:
-      - spring_net
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL8_ROOT_PASSWORD}"
-      TZ: "$TZ"
+  #mysql8:
+   # image: mysql:${MYSQL8_VERSION}
+   # container_name: mysql8
+  #  ports:
+  #    - "${MYSQL8_HOST_PORT}:3306"
+   # volumes:
+    #  - ${MYSQL8_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+    #  - ${DATA_DIR}/mysql8:/var/lib/mysql/:rw
+   # restart: always
+   # privileged: true
+   # networks:
+    #  - spring_net
+   # environment:
+    #  MYSQL_ROOT_PASSWORD: "${MYSQL8_ROOT_PASSWORD}"
+    #  TZ: "$TZ"
 
 
   #percona-mysql8:
