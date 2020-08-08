@@ -58,7 +58,7 @@ RUN apk add --no-cache \
 RUN pecl install \
     imagick \
     redis-5.1.1 \
-    swoole-4.4.15 \
+    swoole \
     mongodb-1.6.1 \
     yaf-3.0.9
 
