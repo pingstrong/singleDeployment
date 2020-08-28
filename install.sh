@@ -1,27 +1,40 @@
 #!/bin/bash
-# Author：  thinkpanax <thinkpanax@163.com>
+# Author：  spring <pingstrong@163.com>
 # Notes: Support Centos7^ || Fedora OS install docker shell.
 
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 clear
 printf "
 #######################################################################
-#       DockerDeploy Installer for CentOS/RedHat/Fedora 7+     #
-#       For more information please contact thinkpanax     #
+       SingleDockerDeploy Installer for CentOS/Ubuntu/Debian/RedHat/Fedora
+       For more information please contact Wechat:pingstrong     #
 #######################################################################
 "
+#country：1 china，2 foreign
+CountryId=1 
+RegistryMirrors="https://registry.docker-cn.com"
 #   ------ check user //start ------
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script！"; exit 1; }
 #   ------ check user //end ------
 
-#   ------ check os //star ------
-if grep -Eqii "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
-    echo "Install is starting ......"
+cat <<EOF
+*******************************
+The following is optional
+*******************************
+    1) China(default)
+    2) Foreign
+*******************************
+EOF
+read -p "Please select country?" AreaID
+if [ ! -n "$AreaID" ] ;then
+  echo "you have not select country, default set is china! \n"
+elif [ $AreaID == 1 ]; then
+  echo "you have select china area . \n" 
 else
-    echo "Please use CentOS7 or Redhat/Fedora System to install!"
-    exit 1
+  echo "you have select foreign area . \n"
+  CountryId=2
+  RegistryMirrors="https://docker.com"
 fi
-#   ------ check os //end ------
 
 #   ------ functions //start -------
 Set_Timezone()
@@ -58,22 +71,104 @@ Download_Files()
         wget -c --progress=bar:force --prefer-family=IPv4 --no-check-certificate ${URL}
     fi
 }
-#   ------ functions //end ------
 
-#   ------ install tools //start ------
-sudo yum install -y epel-release
-sudo yum -y update
-echo "[+] Yum installing dependent packages..."
-for packages in git vim httpd-tools iftop lsof screen make wget make cmake gcc gcc-c++ gcc-g77  file  autoconf  wget crontabs  unzip tar curl curl-devel openssl openssl-devel net-tools;
-do yum -y install $packages; done
-#   ------ install tools //end ------
+function CheckOS() 
+{
+	if [[ -e /etc/debian_version ]]; then
+		OS="debian"
+		source /etc/os-release
 
-#   ------ os optimize system //start ------
-Disable_Selinux
+		if [[ $ID == "debian" || $ID == "raspbian" ]]; then
+			if [[ $VERSION_ID -lt 9 ]]; then
+				echo "⚠️ Your version of Debian is not supported."
+				echo ""
+				echo "However, if you're using Debian >= 9 or unstable/testing then you can continue, at your own risk."
+				echo ""
+				until [[ $CONTINUE =~ (y|n) ]]; do
+					read -rp "Continue? [y/n]: " -e CONTINUE
+				done
+				if [[ $CONTINUE == "n" ]]; then
+					exit 1
+				fi
+			fi
+		elif [[ $ID == "ubuntu" ]]; then
+			OS="ubuntu"
+			MAJOR_UBUNTU_VERSION=$(echo "$VERSION_ID" | cut -d '.' -f1)
+			if [[ $MAJOR_UBUNTU_VERSION -lt 16 ]]; then
+				echo "⚠️ Your version of Ubuntu is not supported."
+				echo ""
+				echo "However, if you're using Ubuntu >= 16.04 or beta, then you can continue, at your own risk."
+				echo ""
+				until [[ $CONTINUE =~ (y|n) ]]; do
+					read -rp "Continue? [y/n]: " -e CONTINUE
+				done
+				if [[ $CONTINUE == "n" ]]; then
+					exit 1
+				fi
+			fi
+		fi
+	elif [[ -e /etc/system-release ]]; then
+		source /etc/os-release
+		if [[ $ID == "fedora" ]]; then
+			OS="fedora"
+		fi
+		if [[ $ID == "centos" ]]; then
+			OS="centos"
+			if [[ ! $VERSION_ID =~ (7|8) ]]; then
+				echo "⚠️ Your version of CentOS is not supported."
+				echo ""
+				echo "The script only support CentOS 7 and CentOS 8."
+				echo ""
+				exit 1
+			fi
+		fi
+		if [[ $ID == "amzn" ]]; then
+			OS="amzn"
+			if [[ $VERSION_ID != "2" ]]; then
+				echo "⚠️ Your version of Amazon Linux is not supported."
+				echo ""
+				echo "The script only support Amazon Linux 2."
+				echo ""
+				exit 1
+			fi
+		fi
+	elif [[ -e /etc/arch-release ]]; then
+		OS=arch
+	else
+		echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2 or Arch Linux system"
+		exit 1
+	fi
+}
 
-# /etc/security/limits.conf
-[ -e /etc/security/limits.d/*nproc.conf ] && rename nproc.conf nproc.conf_bk /etc/security/limits.d/*nproc.conf
-sed -i '/^# End of file/,$d' /etc/security/limits.conf
+Install_Depen_Packages()
+{
+    if [[ $OS =~ (debian|ubuntu) ]]; then
+	 	sudo apt update -y
+        #for packages in  net-tools.x86_64 git vim httpd-tools curl-devel openssl openssl-devel net-tools;
+        #do apt -y install $packages; done
+	elif [[ $OS =~ (centos|amzn) ]]; then
+		#yum install -y unbound
+		sudo yum install -y epel-release
+        sudo yum -y update
+        echo "[+] Yum installing dependent packages..."
+        for packages in  net-tools.x86_64 git vim httpd-tools iftop lsof screen make wget make cmake gcc gcc-c++ gcc-g77  file  autoconf  wget crontabs  unzip tar curl curl-devel openssl openssl-devel net-tools;
+        do yum -y install $packages; done
+
+	elif [[ $OS == "fedora" ]]; then
+		dnf install -y git
+
+
+	elif [[ $OS == "arch" ]]; then
+		pacman -Syu --noconfirm unbound
+
+	fi
+}
+
+OptimizeSys()
+{
+    # /etc/security/limits.conf
+    [ -e /etc/security/limits.d/*nproc.conf ] && rename nproc.conf nproc.conf_bk /etc/security/limits.d/*nproc.conf
+    sed -i '/^# End of file/,$d' /etc/security/limits.conf
 cat >> /etc/security/limits.conf <<EOF
 # End of file
 * soft nproc 1000000
@@ -82,9 +177,9 @@ cat >> /etc/security/limits.conf <<EOF
 * hard nofile 1000000
 EOF
 
-ulimit -SHn 1024000
-echo "ulimit -SHn 1024000" >> /etc/rc.d/rc.local
-source /etc/rc.d/rc.local
+    ulimit -SHn 1024000
+    echo "ulimit -SHn 1024000" >> /etc/rc.d/rc.local
+    source /etc/rc.d/rc.local
 
 cat > /etc/sysctl.conf<<EOF
 
@@ -115,48 +210,166 @@ net.ipv4.tcp_max_syn_backlog = 65536
 
 EOF
 
-sudo sysctl -p
+    sudo sysctl -p
+}
+
+
+RemoveDocker()
+{
+    if [[ $OS =~ (debian|ubuntu) ]]; then
+	 	sudo apt-get remove docker docker-engine docker.io containerd runc
+
+	elif [[ $OS =~ (centos|amzn) ]]; then
+		# 
+        sudo yum remove docker \
+                docker-client \
+                docker-client-latest \
+                docker-common \
+                docker-latest \
+                docker-latest-logrotate \
+                docker-logrotate \
+                docker-engine
+
+	elif [[ $OS == "fedora" ]]; then
+		echo "$OS is not supoort remove docker"
+        exit 1
+
+	elif [[ $OS == "arch" ]]; then
+		echo "$OS is not supoort remove docker"
+        exit 1
+
+	fi
+}
+
+InstallDocker()
+{
+    if [[ $OS =~ (debian|ubuntu) ]]; then
+	 	sudo apt-get install \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo apt-key fingerprint 0EBFCD88
+        sudo add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) \
+            stable"
+        sudo apt-get update
+        sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+	elif [[ $OS =~ (centos|amzn) ]]; then
+		#
+        if [[ $CountryId == 1 ]]; then
+            # step 1: 安装必要的一些系统工具
+            sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+            # Step 2: 添加软件源信息
+            sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+            # Step 3: 更新并安装Docker-CE 官方软件源默认启用了最新的软件
+            sudo yum makecache fast
+            sudo yum -y install docker-ce
+            curl -L https://get.daocloud.io/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+            #sudo curl -L "https://gitee.com/thinkpanax/dockerCompose/repository/archive/v1.25?format=tar.gz" -o ./v1.25.tar.gz
+            #sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && rm -rf dockerCompose
+        else
+            sudo yum install -y yum-utils \
+                device-mapper-persistent-data \
+                lvm2
+            sudo yum-config-manager \
+                --add-repo \
+                https://download.docker.com/linux/centos/docker-ce.repo
+            sudo yum install -y https://download.docker.com/linux/fedora/30/x86_64/stable/Packages/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
+            sudo yum -y install docker-ce docker-ce-cli containerd.io
+            sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+        fi
+         
+	elif [[ $OS == "fedora" ]]; then
+		echo "$OS is not supoort install docker"
+        exit 1
+
+	elif [[ $OS == "arch" ]]; then
+		echo "$OS is not supoort install docker"
+        exit 1
+
+	fi
+
+    # 开启Docker服务
+	sudo systemctl start docker
+	sudo systemctl daemon-reload
+	sudo systemctl enable docker
+    
+}
+
+SetDockerMirror()
+{
+    cat >> /etc/docker/daemon.json <<EOF
+{
+"registry-mirrors": ["$RegistryMirrors"]
+}
+EOF
+    if [[ $OS =~ (debian|ubuntu) ]]; then
+	 	sudo systemctl daemon-reload
+        sudo systemctl restart docker
+        sudo systemctl enable docker
+
+	elif [[ $OS =~ (centos|amzn) ]]; then
+		#
+        sudo systemctl daemon-reload
+        sudo systemctl restart docker
+        sudo systemctl enable docker
+	elif [[ $OS == "fedora" ]]; then
+		echo "$OS is not supoort  setmirror"
+        exit 1
+
+	elif [[ $OS == "arch" ]]; then
+		echo "$OS is not supoort  setmirror"
+        exit 1
+
+	fi
+    
+}
+
+FirewallSetting()
+{
+    echo "Firewall setting ...... "
+}
+
+DeployContainer()
+{
+    sudo cp env.sample .env
+    sudo cp docker-compose.sample.yml docker-compose.yml
+    docker-compose up -d
+}
+
+#   ------ functions //end ------
+
+#check os
+CheckOS
+#   ------ install tools //start ------
+Install_Depen_Packages
+#   ------ install tools //end ------
+
+#   ------ os optimize system //start ------
+Disable_Selinux
+OptimizeSys
+
 #   ------ os optimize system //end ------
 
 #   ------  install docker //start ------
-
-sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
-sudo yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install -y https://download.docker.com/linux/fedora/30/x86_64/stable/Packages/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
-sudo yum -y install docker-ce docker-ce-cli containerd.io
-sudo systemctl start docker
-sudo systemctl daemon-reload
-sudo systemctl enable docker
-sudo curl -L "https://gitee.com/thinkpanax/dockerCompose/repository/archive/v1.25?format=tar.gz" -o ./v1.25.tar.gz
-sudo tar -zxvf ./v1.25.tar.gz && cp ./dockerCompose/docker-compose /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && rm -rf dockerCompose
-#curl -L https://github.com/docker/compose/releases/download/v1.25.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-#chmod +x /usr/local/bin/docker-compose
-#
+RemoveDocker
+InstallDocker
+SetDockerMirror
+# firewall setting,include protocol/port
 #firewall-cmd --permanent --add-masquerade
-
-#vi /etc/docker/daemon.json
-#{
-#“registry-mirrors”: [“https://registry.docker-cn.com“]
-#}
-#ystemctl daemon-reload
-#systemctl restart docker
+FirewallSetting
 #   ------  install docker //end ------
 
 #   ---- deploy service and code //start ------
 #Download_Files ${Download_Mirror}/lib/tcmalloc/${TCMalloc_Ver}.tar.gz ${TCMalloc_Ver}.tar.gz
-sudo cp env.sample .env
-sudo cp docker-compose.sample.yml docker-compose.yml
-docker-compose up -d
+DeployContainer
+
 #   ------ deploy service and code //end ------

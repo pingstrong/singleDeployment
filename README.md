@@ -2,7 +2,7 @@ DockerPHP（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + Ela
 
 -----------------------------------
 使用前请联系作者：pingstrong@163.com
-微信V：Facebooke
+微信V：pingstrong
 -----------------------------------
 
 项目特点：
