@@ -15,7 +15,7 @@ RUN if [ "${PHP_EXTENSIONS}" != "" ]; then \
 COPY ./extensions /tmp/extensions
 WORKDIR /tmp/extensions
 RUN chmod +x install.sh \
-    && bash install.sh \
+    && sh install.sh \
     && rm -rf /tmp/extensions
 
 RUN apk --no-cache add tzdata \
