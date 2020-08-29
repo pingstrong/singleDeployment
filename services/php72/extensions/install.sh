@@ -74,9 +74,14 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     installExtensionFromTgz yaf-3.2.5
 fi
 
+if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
+    echo "---------- Install mongodb ----------"
+    installExtensionFromTgz mongodb-1.8.0
+fi
+
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
     echo "---------- Install swoole ----------"
-    tgzName=swoole-4.5.2.tgz
+    tgzName=swoole-4.5.2
     extensionName="${tgzName%%-*}"
 
     mkdir ${extensionName}
@@ -102,5 +107,5 @@ fi
 
 #base extension
 
-docker-php-ext-install bcmath
+#docker-php-ext-install bcmath
  

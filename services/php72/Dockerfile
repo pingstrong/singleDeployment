@@ -1,30 +1,86 @@
 ARG PHP_VERSION
 FROM ${PHP_VERSION}
-LABEL maintainer="pingstrong@163.com"
 ARG TZ
 
-#update restorigy
-RUN apt update
+ARG CONTAINER_PACKAGE_URL
 
-RUN cp "/usr/share/zoneinfo/$TZ" /etc/localtime \
-    && echo "$TZ" > /etc/timezone
+RUN if [ "${CONTAINER_PACKAGE_URL}" != "" ]; then \
+        sed -i "s/dl-cdn.alpinelinux.org/${CONTAINER_PACKAGE_URL}/g" /etc/apk/repositories; \
+    fi
 
-# Install dev dependencies
-RUN apt install gcc make g++ git imagemagick libc6-dev nodejs libnode64 npm autoconf \
-  libpcre3 libpcre3-dev openssl libssl-dev openssl libssl-dev libperl-dev zlib1g-dev  gcc libzip-dev \
-  libcurl4-gnutls-dev libbz2-dev libjpeg-dev libpng-dev libxpm-dev libfreetype6-dev libgmp-dev libevent-dev \
-  libmcrypt-dev  libxslt1-dev libxml2 libxml2-dev libgtk2.0-dev curl wget vim
- 
-RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
-#manual make install extensions,for example mongodb,swoole
+RUN if [ "${PHP_EXTENSIONS}" != "" ]; then \
+    apk --update; \
+    fi
+
 COPY ./extensions /tmp/extensions
 WORKDIR /tmp/extensions
 RUN chmod +x install.sh \
-    && sh install.sh \
+    && bash install.sh \
     && rm -rf /tmp/extensions
 
+RUN apk --no-cache add tzdata \
+    && cp "/usr/share/zoneinfo/$TZ" /etc/localtime \
+    && echo "$TZ" > /etc/timezone
+
+# Install dev dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS \
+    curl-dev \
+    imagemagick-dev \
+    libtool \
+    libxml2-dev \
+    postgresql-dev \
+    sqlite-dev \
+    gettext-dev \
+    linux-headers \
+    gmp-dev \
+    m4
+
+# Install production dependencies
+RUN apk add --no-cache \
+    bash \
+    curl \
+    freetype-dev \
+    g++ \
+    gcc \
+    git \
+    imagemagick \
+    libc-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    make \
+    mysql-client \
+    nodejs \
+    nodejs-npm \
+    yarn \
+    openssh-client \
+    postgresql-libs \
+    rsync \
+    zlib-dev \
+    autoconf
+
+
+#
+
+
 # Install PECL and PEAR extensions
- 
+#RUN pecl install \
+ #   imagick \
+ #   redis-5.1.1 \
+ #  swoole \
+ #   mongodb-1.8.1 \
+ #   yaf-3.0.9
+    #xdebug
+
+# Enable PECL and PEAR extensions
+#RUN docker-php-ext-enable \
+#    imagick \
+#    redis \
+#    swoole \
+#    mongodb \
+#    yaf
+   # xdebug
 
 # Configure php extensions
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -37,38 +93,36 @@ RUN docker-php-ext-install \
     curl \
     exif \
     gd \
-    gettext \
-    shmop \
-    sysvmsg \
     iconv \
     mbstring \
     pdo \
     pdo_mysql \
+    pdo_pgsql \
+    pdo_sqlite \
     pcntl \
     tokenizer \
     xml \
     zip \
-    soap \
-    xmlrpc \
-    gmp \
     mysqli \
-    sockets
-   # mysql \
+    #mysql \
+    gmp
 
 # Install composer
 ENV COMPOSER_HOME /tmp/composer
 #ENV PATH ./vendor/bin:/composer/vendor/bin:$PATH
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_MEMORY_LIMIT -1
 #RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
-RUN curl -L -o /usr/bin/composer https://mirrors.aliyun.com/composer/composer.phar \
+RUN curl -o /usr/bin/composer https://mirrors.aliyun.com/composer/composer.phar \
     && chmod +x /usr/bin/composer
 
 # Install PHP_CodeSniffer
 #RUN composer global require "squizlabs/php_codesniffer=*"
 
 # php image's www-data user uid & gid are 82, change them to 1000 (primary user)
-#RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
+RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+# Cleanup dev dependencies
+RUN apk del -f .build-deps
 
 # Setup working directory
 WORKDIR /www

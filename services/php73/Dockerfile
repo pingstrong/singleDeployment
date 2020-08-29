@@ -10,7 +10,7 @@ RUN cp "/usr/share/zoneinfo/$TZ" /etc/localtime \
     && echo "$TZ" > /etc/timezone
 
 # Install dev dependencies
-RUN apt install gcc make g++ git imagemagick libc6-dev nodejs libnode64 npm autoconf \
+RUN apt install -y gcc make g++ git imagemagick libc6-dev nodejs libnode64 npm autoconf \
   libpcre3 libpcre3-dev openssl libssl-dev openssl libssl-dev libperl-dev zlib1g-dev  gcc libzip-dev \
   libcurl4-gnutls-dev libbz2-dev libjpeg-dev libpng-dev libxpm-dev libfreetype6-dev libgmp-dev libevent-dev \
   libmcrypt-dev  libxslt1-dev libxml2 libxml2-dev libgtk2.0-dev curl wget vim
@@ -20,7 +20,7 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
 COPY ./extensions /tmp/extensions
 WORKDIR /tmp/extensions
 RUN chmod +x install.sh \
-    && sh install.sh \
+    && bash install.sh \
     && rm -rf /tmp/extensions
 
 # Install PECL and PEAR extensions
