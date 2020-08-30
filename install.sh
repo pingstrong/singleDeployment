@@ -345,6 +345,10 @@ DeployContainer()
     docker-compose up -d
 }
 
+ChmodDirPermission()
+{
+    chmod 777 ./data/esdata -R
+}
 #   ------ functions //end ------
 
 #check os
@@ -371,5 +375,5 @@ FirewallSetting
 #   ---- deploy service and code //start ------
 #Download_Files ${Download_Mirror}/lib/tcmalloc/${TCMalloc_Ver}.tar.gz ${TCMalloc_Ver}.tar.gz
 DeployContainer
-
+ChmodDirPermission
 #   ------ deploy service and code //end ------
