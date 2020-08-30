@@ -15,7 +15,7 @@ echo
 
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
-    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers
+    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers openssl
 fi
 
 
@@ -480,11 +480,11 @@ fi
 
 if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
     echo "---------- Install redis ----------"
-    isPhpVersionGreaterOrEqual 7 0
+    isPhpVersionGreaterOrEqual 7 3
     if [[ "$?" = "1" ]]; then
         installExtensionFromTgz redis-5.3.1
     else
-        printf "\n" | pecl install redis-4.3.0
+        printf "\n" | pecl install redis
         docker-php-ext-enable redis
     fi
 fi
@@ -550,30 +550,37 @@ fi
 
 if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     echo "---------- Install mongodb ----------"
-    installExtensionFromTgz mongodb-1.8.0
+    isPhpVersionGreaterOrEqual 7 3
+    if [[ "$?" = "1" ]]; then
+        installExtensionFromTgz mongodb-1.8.0
+    else
+        printf "\n" | pecl install yaf
+        docker-php-ext-enable yaf
+    fi
 fi
 
 if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     echo "---------- Install yaf ----------"
-    isPhpVersionGreaterOrEqual 7 0
+    isPhpVersionGreaterOrEqual 7 3
 
     if [[ "$?" = "1" ]]; then
+        installExtensionFromTgz yaf-3.2.5
+    else
         printf "\n" | pecl install yaf
         docker-php-ext-enable yaf
-    else
-        installExtensionFromTgz yaf-3.2.5
     fi
 fi
 
 
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
     echo "---------- Install swoole ----------"
-    isPhpVersionGreaterOrEqual 7 0
+    isPhpVersionGreaterOrEqual 7 3
 
     if [[ "$?" = "1" ]]; then
         installExtensionFromTgz swoole-4.5.2 --enable-openssl --enable-http2
     else
-        installExtensionFromTgz swoole-2.0.11
+        printf "\n" | pecl install swoole
+        docker-php-ext-enable swoole
     fi
 fi
 
