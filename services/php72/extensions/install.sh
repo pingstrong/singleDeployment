@@ -554,14 +554,14 @@ if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     if [[ "$?" = "1" ]]; then
         installExtensionFromTgz mongodb-1.8.0
     else
-        printf "\n" | pecl install yaf
-        docker-php-ext-enable yaf
+        printf "\n" | pecl install mongodb
+        docker-php-ext-enable mongodb
     fi
 fi
 
 if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     echo "---------- Install yaf ----------"
-    isPhpVersionGreaterOrEqual 7 3
+    isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
         installExtensionFromTgz yaf-3.2.5
