@@ -252,21 +252,21 @@ services:
     #restart: always
     #networks:
       #- spring_net
-
+  
   elasticsearch:
-    #build:
-    #  context: ./services/elasticsearch
-    #  args:
-    #    ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-    #    ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
-    image: elasticsearch:${ELASTICSEARCH_VERSION}
+    build:
+      context: ./services/elasticsearch
+      args:
+        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+        ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
+    #image: elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: elasticsearch
     environment:
       - TZ=$TZ
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - ${DATA_DIR}/esdata:/usr/share/elasticsearch/data
+      - ${DATA_DIR}/esdata:/usr/share/elasticsearch/data:rw  #/data/esdata dir must set 777 ,so can be read.write
       - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/elasticsearch.yml
     hostname: elasticsearch
     restart: always
