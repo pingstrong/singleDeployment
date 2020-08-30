@@ -574,7 +574,7 @@ fi
 
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
     echo "---------- Install swoole ----------"
-    isPhpVersionGreaterOrEqual 7 3
+    isPhpVersionGreaterOrEqual 7 2
 
     if [[ "$?" = "1" ]]; then
          
