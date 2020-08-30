@@ -254,11 +254,12 @@ services:
       #- spring_net
 
   elasticsearch:
-    build:
-      context: ./services/elasticsearch
-      args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-        ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
+    #build:
+    #  context: ./services/elasticsearch
+    #  args:
+    #    ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+    #    ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
+    image: elasticsearch:${ELASTICSEARCH_VERSION}
     container_name: elasticsearch
     environment:
       - TZ=$TZ
