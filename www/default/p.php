@@ -15,7 +15,6 @@ echo '</ul>';
 echo '<h2>已安装扩展</h2>';
 printExtensions();
 
-getallheaders();
 /**
  * 获取MySQL版本
  */
