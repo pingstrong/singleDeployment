@@ -314,11 +314,11 @@ Redis连接信息如下：
 1. 在php.ini中关闭XDebug调试
 2. 增强MySQL数据库访问的安全策略
 3. 增强redis访问的安全策略
-
+4. php启用opcache
 
 ### php定时器
 
-* * * * * docker exec php72_crontab  sh -c "cd /path-to-your-project && php artisan schedule:run  >> schedule_run.log  2>&1"
+* * * * * docker exec php72_crontab  sh -c "cd /path-to-your-project && sudo -u www-data php artisan schedule:run  >> ./schedule_run.log  2>&1"
 
 #随时提取docker的容器ID或者名称
 * * * * * docker exec `docker ps -a | grep 'php72_crontab' |awk '{print $1}'` /var/www/data_rsync >> /var/log/rsync.log 2>&1
@@ -330,4 +330,4 @@ Redis连接信息如下：
 
     docker-compose up --scale php72=10 -d
 2、内置swarm集群管理
-3、第三方集群编排工具kubernetes
+3、第三方集群容器编排工具kubernetes
