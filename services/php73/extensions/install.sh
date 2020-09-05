@@ -14,9 +14,9 @@ echo "============================================"
 echo
 
 
-if [ "${PHP_EXTENSIONS}" != "" ]; then
-    apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers openssl git sudo
-fi
+#if [ "${PHP_EXTENSIONS}" != "" ]; then
+apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers openssl git sudo
+#fi
 
 
 export EXTENSIONS=",${PHP_EXTENSIONS},"
