@@ -15,7 +15,7 @@ echo
 
 
 #if [ "${PHP_EXTENSIONS}" != "" ]; then
-apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers openssl git sudo
+#apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers openssl git sudo
 #fi
 
 
