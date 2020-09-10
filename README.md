@@ -330,4 +330,10 @@ Redis连接信息如下：
 
     docker-compose up --scale php72=10 -d
 2、内置swarm集群管理
+
 3、第三方集群容器编排工具kubernetes
+
+### dockerfile 的问题 FROM alpine:3.8 temporary error (try again later)
+
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
