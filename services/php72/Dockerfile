@@ -40,3 +40,5 @@ RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 ww
 RUN apk --no-cache add  git sudo vim
 
 WORKDIR /www
+
+RUN chown www-data:www-data /www -R

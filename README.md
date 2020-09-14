@@ -337,3 +337,9 @@ Redis连接信息如下：
 
     sudo systemctl daemon-reload
     sudo systemctl restart docker
+### 安装composer后报错proc_open(): fork failed - Cannot allocate memory
+
+	容器在命令行环境依次运行以下三条命令
+	dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+	mkswap /var/swap.1
+	swapon /var/swap.1

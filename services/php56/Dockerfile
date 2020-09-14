@@ -43,3 +43,4 @@ RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 ww
 #RUN apk add --update nodejs npm && npm install -g yarn
 
 WORKDIR /www
+RUN chown www-data:www-data /www -R
