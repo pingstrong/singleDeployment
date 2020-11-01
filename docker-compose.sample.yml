@@ -427,32 +427,47 @@ services:
         - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
         - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
         #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
-      #environment:
-      #  - HOST=0.0.0.0
-      #  - DB_HOST=mongodb
-      #  - DB_PORT=${MONGODB_CONTAINER_PORT}
       restart: always
       networks:
         - spring_net
 
-  portainer:
-      container_name: portainer
-      image: portainer/portainer
-      restart: always
+  #portainer:
+  #    container_name: portainer
+  #    image: portainer/portainer
+  #    restart: always
       #ports:
       #  - "${PORTAINER_PORT}:9000"
-      command: -H unix:///var/run/docker.sock
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - portainer_data:/data
-      environment:
-         - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
-      networks:
-        - spring_net
+  #    command: -H unix:///var/run/docker.sock
+  #    volumes:
+  #      - /var/run/docker.sock:/var/run/docker.sock
+  #      - portainer_data:/data
+  #    environment:
+  #       - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
+  #    networks:
+  #      - spring_net
 
+  jenkins:
+      container_name: jenkins
+      image: jenkinsci/blueocean
+      restart: always
+      privileged: true
+      user: root
+      ports:
+        - "9090:8080"
+        - "50000:50000"
+      volumes:
+        - '/etc/localtime:/etc/localtime:ro'
+        - '/root/.ssh/:/root/.ssh/:ro'
+        - ./data/jenkins/:/var/jenkins_home
+        #初始密码放在映射目录 data/jenkins/secrets/initialAdminPassword
+        - /var/run/docker.sock:/var/run/docker.sock
+      environment:
+         - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+      networks:
+        - spring_net     
 
 ############################################
-volumes:
-  portainer_data:
+#volumes:
+#  portainer_data:
 networks:
   spring_net:
