@@ -16,7 +16,10 @@ RUN if [ "${CONTAINER_PACKAGE_URL}" != "" ]; then \
 
 RUN if [ -z "${INSTALL_APPS##*,certbot,*}" ]; then \
         echo "---------- Install certbot ----------"; \
-        apk add --no-cache certbot; \
+        #apk add python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev \
+        #pip3 install pip --upgrade \
+        #pip3 install certbot-nginx \
+        apk --update add --no-cache certbot certbot-nginx; \
     fi
 
 WORKDIR /www
