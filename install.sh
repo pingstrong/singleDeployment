@@ -12,7 +12,7 @@ printf "
 "
 #country：1 china，2 foreign
 CountryId=1 
-RegistryMirrors="https://registry.docker-cn.com"
+RegistryMirrors="https://mbv59fdk.mirror.aliyuncs.com"
 #   ------ check user //start ------
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script！"; exit 1; }
 #   ------ check user //end ------
