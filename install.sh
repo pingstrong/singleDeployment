@@ -207,6 +207,7 @@ net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_mem = 94500000 915000000 927000000
 net.ipv4.tcp_max_orphans = 3276800
 net.ipv4.tcp_max_syn_backlog = 65536
+net.ipv4.icmp_echo_ignore_all = 1
 
 EOF
 
