@@ -12,7 +12,7 @@ printf "
 "
 #country：1 china，2 foreign
 CountryId=1 
-RegistryMirrors="https://registry.docker-cn.com"
+RegistryMirrors="https://mbv59fdk.mirror.aliyuncs.com"
 #   ------ check user //start ------
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script！"; exit 1; }
 #   ------ check user //end ------
@@ -207,6 +207,7 @@ net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_mem = 94500000 915000000 927000000
 net.ipv4.tcp_max_orphans = 3276800
 net.ipv4.tcp_max_syn_backlog = 65536
+net.ipv4.icmp_echo_ignore_all = 1
 
 EOF
 
@@ -269,7 +270,7 @@ InstallDocker()
             sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
             # Step 3: 更新并安装Docker-CE 官方软件源默认启用了最新的软件
             #sudo yum makecache fast
-            sudo yum localinstall -y ./install/centos/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
+            sudo yum localinstall -y ./installPackage/centos/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
             sudo yum -y install docker-ce docker-ce-cli
             curl -L https://get.daocloud.io/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
             chmod +x /usr/local/bin/docker-compose
