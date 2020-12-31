@@ -270,7 +270,7 @@ InstallDocker()
             sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
             # Step 3: 更新并安装Docker-CE 官方软件源默认启用了最新的软件
             #sudo yum makecache fast
-            sudo yum localinstall -y ./install/centos/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
+            sudo yum localinstall -y ./installPackage/centos/containerd.io-1.2.6-3.3.fc30.x86_64.rpm
             sudo yum -y install docker-ce docker-ce-cli
             curl -L https://get.daocloud.io/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
             chmod +x /usr/local/bin/docker-compose
