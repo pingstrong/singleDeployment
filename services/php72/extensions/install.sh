@@ -482,10 +482,11 @@ if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
     echo "---------- Install redis ----------"
     isPhpVersionGreaterOrEqual 7 3
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz redis-5.3.1
+        installExtensionFromTgz redis-5.3.2
     else
-        printf "\n" | pecl install redis
-        docker-php-ext-enable redis
+        #printf "\n" | pecl install redis
+        #docker-php-ext-enable redis
+        installExtensionFromTgz redis-5.3.1
     fi
 fi
 
@@ -578,7 +579,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.5.10
+        tgzName=swoole-4.6.1
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1
@@ -638,8 +639,15 @@ if [[ -z "${EXTENSIONS##*,rdkafka,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
         apk add librdkafka-dev
-        printf "\n" | pecl install rdkafka
-        docker-php-ext-enable rdkafka
+        #printf "\n" | pecl install rdkafka
+        tgzName=rdkafka-5.0.0
+        extensionName="${tgzName%%-*}"
+        mkdir ${extensionName}
+        tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1
+        ( cd ${extensionName} && phpize && ./configure  && make ${MC} && make install )
+
+        docker-php-ext-enable ${extensionName} $2
+        #docker-php-ext-enable rdkafka
     else
         echo "---------- PHP Version>= 5.6----------"
     fi
