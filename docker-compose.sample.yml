@@ -431,20 +431,20 @@ services:
       networks:
         - spring_net
 
-  #portainer:
-  #    container_name: portainer
-  #    image: portainer/portainer
-  #    restart: always
-      #ports:
-      #  - "${PORTAINER_PORT}:9000"
-  #    command: -H unix:///var/run/docker.sock
-  #    volumes:
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #      - portainer_data:/data
-  #    environment:
-  #       - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
-  #    networks:
-  #      - spring_net
+  portainer:
+      container_name: portainer
+      image: portainer/portainer-ce
+      restart: always
+      ports:
+        - "${PORTAINER_PORT}:9000"
+      command: -H unix:///var/run/docker.sock
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      environment:
+         - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
+      networks:
+        - spring_net
 
   jenkins:
       container_name: jenkins
@@ -467,7 +467,7 @@ services:
         - spring_net     
 
 ############################################
-#volumes:
-#  portainer_data:
+volumes:
+  portainer_data:
 networks:
   spring_net:
