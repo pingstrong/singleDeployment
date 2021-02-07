@@ -37,7 +37,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 # php image's www-data user uid & gid are 82, change them to 1000 (primary user)
 RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
-RUN apk --no-cache add  git sudo vim openssh openssh-server
+RUN apk --no-cache add  git sudo vim openssh openssh-server ffmpeg
 
 WORKDIR /www
 RUN chown www-data:www-data /www -R
