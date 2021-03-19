@@ -482,7 +482,7 @@ if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
     echo "---------- Install redis ----------"
     isPhpVersionGreaterOrEqual 7 3
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz redis-5.3.2
+        installExtensionFromTgz redis-5.3.3
     else
         #printf "\n" | pecl install redis
         #docker-php-ext-enable redis
@@ -565,7 +565,7 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz yaf-3.2.5
+        installExtensionFromTgz yaf-3.3.2
     else
         printf "\n" | pecl install yaf
         docker-php-ext-enable yaf
@@ -579,7 +579,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.6.3
+        tgzName=swoole-4.6.4
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1

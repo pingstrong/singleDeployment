@@ -145,6 +145,27 @@ services:
     networks:
       - spring_net
 
+  percona:
+    image: percona:${PERCONA_VERSION}
+    container_name: percona
+    restart: always
+    privileged: true
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${DATA_DIR}/percona:/var/lib/mysql
+      - ${PERCONA_CONF_FILE}:/etc/my.cnf.d
+    networks:
+      - spring_net
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PERCONA_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PERCONA_INI_DATABASE}
+      MYSQL_USER: ${PERCONA_INI_USER}
+      MYSQL_PASSWORD: ${PERCONA_INI_PASSWORD}
+      #INIT_TOKUDB: TRUE
+    ports: 
+      - "${PERCONA_PORT}:3306"
+    expose: 
+      - ${PERCONA_PORT}
 
   redis:
     image: redis:${REDIS_VERSION}
