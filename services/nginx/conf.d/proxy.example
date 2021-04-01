@@ -8,7 +8,7 @@ server {
     #add_header X-XSS-Protection "1; mode=block";
     #add_header X-Content-Type-Options "nosniff";
     access_log /dev/null;
-    #access_log  /var/log/nginx/nginx.localhost.access.log  main;
+    #access_log  /var/log/nginx/nginx.localhost.access.log  log_post;
     #error_log  /var/log/nginx/nginx.localhost.error.log  warn;
 
     #error_page  404              /404.html;

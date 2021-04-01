@@ -10,7 +10,7 @@ server {
     add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options "nosniff";
     #access_log /dev/null;
-    access_log  /var/log/nginx/laravel.access.log  main;
+    access_log  /var/log/nginx/laravel.access.log  log_post;
     error_log  /var/log/nginx/laravel.error.log  warn;
 
     #error_page  404              /404.html;

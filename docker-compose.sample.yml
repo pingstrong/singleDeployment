@@ -145,27 +145,27 @@ services:
     networks:
       - spring_net
 
-  percona:
-    image: percona:${PERCONA_VERSION}
-    container_name: percona
-    restart: always
-    privileged: true
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - ${DATA_DIR}/percona:/var/lib/mysql
-      - ${PERCONA_CONF_FILE}:/etc/my.cnf.d
-    networks:
-      - spring_net
-    environment:
-      MYSQL_ROOT_PASSWORD: ${PERCONA_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${PERCONA_INI_DATABASE}
-      MYSQL_USER: ${PERCONA_INI_USER}
-      MYSQL_PASSWORD: ${PERCONA_INI_PASSWORD}
-      #INIT_TOKUDB: TRUE
-    ports: 
-      - "${PERCONA_PORT}:3306"
-    expose: 
-      - ${PERCONA_PORT}
+  #percona:
+  #  image: percona:${PERCONA_VERSION}
+  #  container_name: percona
+  #  restart: always
+  #  privileged: true
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime
+  #    - ${DATA_DIR}/percona:/var/lib/mysql
+  #    - ${PERCONA_CONF_FILE}:/etc/my.cnf.d
+  #  networks:
+  #    - spring_net
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: ${PERCONA_ROOT_PASSWORD}
+  #    MYSQL_DATABASE: ${PERCONA_INI_DATABASE}
+  #    MYSQL_USER: ${PERCONA_INI_USER}
+  #    MYSQL_PASSWORD: ${PERCONA_INI_PASSWORD}
+      
+  #  ports: 
+  #    - "${PERCONA_PORT}:3306"
+  #  expose: 
+  #    - ${PERCONA_PORT}
 
   redis:
     image: redis:${REDIS_VERSION}
@@ -225,38 +225,38 @@ services:
       - REDIS_1_AUTH=${REDIS_ADMIN_AUTH}
       - TZ=$TZ
 
-  mongodb:
-    image: mongo:${MONGODB_VERSION}
-    container_name: mongodb
-    environment:
-        MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
-        MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
-        TZ: "$TZ"
-    volumes:
-      - ${DATA_DIR}/mongo:/data/db:rw
-      - ${DATA_DIR}/mongo_key:/mongo:rw
-    ports:
-       - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
-    restart: always
-    privileged: true
-    networks:
-       - spring_net
-    command:
-       --auth
+  #mongodb:
+  #  image: mongo:${MONGODB_VERSION}
+  #  container_name: mongodb
+  #  environment:
+  #      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
+  #      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
+  #      TZ: "$TZ"
+  #  volumes:
+  #    - ${DATA_DIR}/mongo:/data/db:rw
+  #    - ${DATA_DIR}/mongo_key:/mongo:rw
+  #  ports:
+  #     - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
+  #  restart: always
+  #  privileged: true
+  #  networks:
+  #     - spring_net
+  #  command:
+  #     --auth
 
-  adminmongo:
-    image: mrvautin/adminmongo
-    container_name: adminmongo
-    ports:
-      - "${ADMINMONGO_HOST_PORT}:1234"
-    volumes:
-      - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
-    environment:
-      - HOST=0.0.0.0
-      - DB_HOST=mongodb
-      - DB_PORT=${MONGODB_CONTAINER_PORT}
-    networks:
-      - spring_net
+  #adminmongo:
+  #  image: mrvautin/adminmongo
+  #  container_name: adminmongo
+  #  ports:
+  #    - "${ADMINMONGO_HOST_PORT}:1234"
+  #  volumes:
+  #    - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
+  #  environment:
+  #    - HOST=0.0.0.0
+  #    - DB_HOST=mongodb
+  #    - DB_PORT=${MONGODB_CONTAINER_PORT}
+  #  networks:
+  #    - spring_net
 
   #mongo-express:
    # image: mongo-express
@@ -437,20 +437,20 @@ services:
   #  networks:
   #    - spring_net
 
-  ossrs:
-      image: ossrs/srs:latest
-      container_name: ossrs
-      ports:
-        - "${OSSRS_PUBLISH_PORT}:1935"
-        - "${OSSRS_API_PORT}:1985"
-        - "${OSSRS_HTTP_PORT}:8080"
-      volumes:
-        - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
-        - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
+  #ossrs:
+  #    image: ossrs/srs:latest
+  #    container_name: ossrs
+  #    ports:
+  #      - "${OSSRS_PUBLISH_PORT}:1935"
+  #      - "${OSSRS_API_PORT}:1985"
+  #      - "${OSSRS_HTTP_PORT}:8080"
+  #    volumes:
+  #      - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
+  #      - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
         #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
-      restart: always
-      networks:
-        - spring_net
+  #    restart: always
+  #    networks:
+  #      - spring_net
 
   portainer:
       container_name: portainer
