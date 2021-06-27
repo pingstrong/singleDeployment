@@ -225,38 +225,38 @@ services:
       - REDIS_1_AUTH=${REDIS_ADMIN_AUTH}
       - TZ=$TZ
 
-  #mongodb:
-  #  image: mongo:${MONGODB_VERSION}
-  #  container_name: mongodb
-  #  environment:
-  #      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
-  #      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
-  #      TZ: "$TZ"
-  #  volumes:
-  #    - ${DATA_DIR}/mongo:/data/db:rw
-  #    - ${DATA_DIR}/mongo_key:/mongo:rw
-  #  ports:
-  #     - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
-  #  restart: always
-  #  privileged: true
-  #  networks:
-  #     - spring_net
+  mongodb:
+    image: mongo:${MONGODB_VERSION}
+    container_name: mongodb
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
+        MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
+        TZ: "$TZ"
+    volumes:
+      - ${DATA_DIR}/mongo:/data/db:rw
+      - ${DATA_DIR}/mongo_key:/mongo:rw
+    ports:
+       - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
+    restart: always
+    privileged: true
+    networks:
+       - spring_net
   #  command:
   #     --auth
 
-  #adminmongo:
-  #  image: mrvautin/adminmongo
-  #  container_name: adminmongo
-  #  ports:
-  #    - "${ADMINMONGO_HOST_PORT}:1234"
-  #  volumes:
-  #    - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
-  #  environment:
-  #    - HOST=0.0.0.0
-  #    - DB_HOST=mongodb
-  #    - DB_PORT=${MONGODB_CONTAINER_PORT}
-  #  networks:
-  #    - spring_net
+  adminmongo:
+    image: mrvautin/adminmongo
+    container_name: adminmongo
+    ports:
+      - "${ADMINMONGO_HOST_PORT}:1234"
+    volumes:
+      - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
+    environment:
+      - HOST=0.0.0.0
+      - DB_HOST=mongodb
+      - DB_PORT=${MONGODB_CONTAINER_PORT}
+    networks:
+      - spring_net
 
   #mongo-express:
    # image: mongo-express
@@ -274,63 +274,62 @@ services:
     #networks:
       #- spring_net
   
-  elasticsearch:
-    build:
-      context: ./services/elasticsearch
-      args:
-        ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-        ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
-    #image: elasticsearch:${ELASTICSEARCH_VERSION}
-    container_name: elasticsearch
-    environment:
-      - TZ=$TZ
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    volumes:
-      - ${DATA_DIR}/esdata:/usr/share/elasticsearch/data:rw  #/data/esdata dir must set 777 ,so can be read.write
-      - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/elasticsearch.yml
-    hostname: elasticsearch
-    restart: always
-    privileged: true
-    ports:
-      - "${ELASTICSEARCH_HOST_PORT_C}:9200"
-      - "${ELASTICSEARCH_HOST_PORT_S}:9300"
-    networks:
-      - spring_net
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+  #elasticsearch:
+  #  build:
+  #    context: ./services/elasticsearch
+  #    args:
+  #      ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+  #      ELASTICSEARCH_PLUGINS: ${ELASTICSEARCH_PLUGINS}
+  #  container_name: elasticsearch
+  #  environment:
+  #    - TZ=$TZ
+  #    - discovery.type=single-node
+  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #  volumes:
+  #    - ${DATA_DIR}/esdata:/usr/share/elasticsearch/data:rw  #/data/esdata dir must set 777 ,so can be read.write
+  #    - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/elasticsearch.yml
+  #  hostname: elasticsearch
+  #  restart: always
+  #  privileged: true
+  #  ports:
+  #    - "${ELASTICSEARCH_HOST_PORT_C}:9200"
+  #    - "${ELASTICSEARCH_HOST_PORT_S}:9300"
+  #  networks:
+  #    - spring_net
+  #  ulimits:
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
 
-  kibana:
-    image: kibana:${KIBANA_VERSION}
-    container_name: kibana
-    environment:
-      TZ: "$TZ"
-      elasticsearch.hosts: http://elasticsearch:9200
-    hostname: kibana
-    depends_on:
-      - elasticsearch
-    restart: always
-    ports:
-      - "${KIBANA_HOST}:5601"
-    networks:
-      - spring_net
+  #kibana:
+  #  image: kibana:${KIBANA_VERSION}
+  #  container_name: kibana
+  #  environment:
+  #    TZ: "$TZ"
+  #    elasticsearch.hosts: http://elasticsearch:9200
+  #  hostname: kibana
+  #  depends_on:
+  #    - elasticsearch
+  #  restart: always
+  #  ports:
+  #    - "${KIBANA_HOST}:5601"
+  #  networks:
+  #    - spring_net
 
-  logstash:
-    image: logstash:${LOGSTASH_VERSION}
-    container_name: logstash
-    hostname: logstash
-    restart: always
-    depends_on:
-      - elasticsearch
-    environment:
-      TZ: "$TZ"
-    ports:
-      - "${LOGSTASH_HOST_PORT_C}:9600"
-      - "${LOGSTASH_HOST_PORT_S}:5044"
-    networks:
-      - spring_net
+  #logstash:
+  #  image: logstash:${LOGSTASH_VERSION}
+  #  container_name: logstash
+  #  hostname: logstash
+  #  restart: always
+  #  depends_on:
+  #    - elasticsearch
+  #  environment:
+  #    TZ: "$TZ"
+  #  ports:
+  #    - "${LOGSTASH_HOST_PORT_C}:9600"
+  #    - "${LOGSTASH_HOST_PORT_S}:5044"
+  #  networks:
+  #    - spring_net
 
   rabbitmq:
     #setup host name
@@ -491,25 +490,25 @@ services:
   #    networks:
   #      - spring_net
 
-  jenkins:
-      container_name: jenkins
-      image: jenkinsci/blueocean
-      restart: always
-      privileged: true
-      user: root
-      ports:
-        - "9090:8080"
-        - "50000:50000"
-      volumes:
-        - '/etc/localtime:/etc/localtime:ro'
-        - '/root/.ssh/:/root/.ssh/:ro'
-        - ./data/jenkins/:/var/jenkins_home
+  #jenkins:
+  #    container_name: jenkins
+  #    image: jenkinsci/blueocean
+  #    restart: always
+  #    privileged: true
+  #    user: root
+  #    ports:
+  #      - "9090:8080"
+  #      - "50000:50000"
+  #    volumes:
+  #      - '/etc/localtime:/etc/localtime:ro'
+  #      - '/root/.ssh/:/root/.ssh/:ro'
+  #      - ./data/jenkins/:/var/jenkins_home
         #初始密码放在映射目录 data/jenkins/secrets/initialAdminPassword
-        - /var/run/docker.sock:/var/run/docker.sock
-      environment:
-         - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
-      networks:
-        - spring_net     
+  #      - /var/run/docker.sock:/var/run/docker.sock
+  #    environment:
+  #       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+  #    networks:
+  #      - spring_net     
 
 ############################################
 volumes:
