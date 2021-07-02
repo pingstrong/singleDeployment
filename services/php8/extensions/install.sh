@@ -482,7 +482,7 @@ if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
     echo "---------- Install redis ----------"
     isPhpVersionGreaterOrEqual 7 3
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz redis-5.3.4
+        installExtensionFromTgz redis-5.3.3
     else
         #printf "\n" | pecl install redis
         #docker-php-ext-enable redis
@@ -553,7 +553,7 @@ if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     echo "---------- Install mongodb ----------"
     isPhpVersionGreaterOrEqual 7 3
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz mongodb-1.9.1
+        installExtensionFromTgz mongodb-1.8.0
     else
         printf "\n" | pecl install mongodb
         docker-php-ext-enable mongodb
@@ -565,7 +565,7 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz yaf-3.3.3
+        installExtensionFromTgz yaf-3.3.2
     else
         printf "\n" | pecl install yaf
         docker-php-ext-enable yaf
