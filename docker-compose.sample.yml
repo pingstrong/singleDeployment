@@ -64,6 +64,41 @@ services:
     networks:
       - spring_net
 
+  #php8:
+  #  build:
+  #    context: ./services/php8
+  #    args:
+  #      PHP_VERSION: php:${PHP8_VERSION}
+  #      CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+  #      PHP_EXTENSIONS: ${PHP8_EXTENSIONS}
+  #      TZ: "$TZ"
+  #  container_name: php8
+  #  ports:
+  #    - 9581:9501
+  #    - 9582:9502
+  #    - 9583:9503
+  #  expose:
+  #    - 9000
+  #    - 9501
+  #    - 9502
+  #    - 9503
+  #  extra_hosts:
+  #    - "www.site1.com:172.17.0.1"
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime
+  #    - ${SOURCE_DIR}:/www/:rw
+  #    - ${PHP8_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+  #    - ${PHP8_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+  #    - ${PHP8_LOG_DIR}:/var/log/php
+  #    - ${DATA_DIR}/composer:/tmp/composer
+  #  restart: always
+  #  privileged: true
+  #  cap_add:
+  #    - SYS_PTRACE
+  #  networks:
+  #    - spring_net   
+
+      
   php72:
     build:
       context: ./services/php72
@@ -255,6 +290,7 @@ services:
       - HOST=0.0.0.0
       - DB_HOST=mongodb
       - DB_PORT=${MONGODB_CONTAINER_PORT}
+    restart: always
     networks:
       - spring_net
 
