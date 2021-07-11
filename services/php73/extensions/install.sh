@@ -492,7 +492,7 @@ fi
 
 if [[ -z "${EXTENSIONS##*,apcu,*}" ]]; then
     echo "---------- Install apcu ----------"
-    installExtensionFromTgz apcu-5.1.17
+    installExtensionFromTgz apcu-5.1.20
 fi
 
 if [[ -z "${EXTENSIONS##*,memcached,*}" ]]; then

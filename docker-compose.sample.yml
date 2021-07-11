@@ -290,6 +290,7 @@ services:
       - HOST=0.0.0.0
       - DB_HOST=mongodb
       - DB_PORT=${MONGODB_CONTAINER_PORT}
+    restart: always
     networks:
       - spring_net
 
