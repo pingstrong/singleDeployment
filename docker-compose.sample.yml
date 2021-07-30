@@ -194,8 +194,27 @@ services:
       MYSQL_DATABASE: ${MYSQL8_DATABASE}
       MYSQL_USER: ${MYSQL8_USER}
       MYSQL_PASSWORD: ${MYSQL8_PASSWORD}
+    privileged: true
     networks:
       - spring_net
+
+  postgres:
+    image: postgres:${POSTGRESQL_VERSION}
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      PGDATA: ${POSTGRESQL_PGDATA}
+      POSTGRES_DB: ${POSTGRESQL_DB}
+    volumes: 
+      - ${POSTGRESQL_DATA_PATH}:/var/lib/postgresql/data
+    ports: 
+      - ${POSTGRESQL_PORT}:5432
+    privileged: true
+    networks:
+      - spring_net
+
   #percona:
   #  image: percona:${PERCONA_VERSION}
   #  container_name: percona
