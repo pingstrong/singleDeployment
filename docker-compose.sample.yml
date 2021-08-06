@@ -407,12 +407,8 @@ services:
     container_name: rabbitmq
     #hostname: rabbitmq_host
     #use docker images
-    image: rabbitmq:3-management
+    image: rabbitmq:${RABBITMQ_VERSION}
     #ports setting
-    environment:
-      #RABBITMQ_DEFAULT_VHOST: "${RABBITMQ_DEFAULT_VHOST}"
-      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
-      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
     ports:
       - "${RABBITMQ_UI_PORT}:15672" #-- 管理界面ui端口  客户端连接端口映射
       - "${RABBITMQ_CLIENT_PORT}:5672" #client端通信口
@@ -421,6 +417,7 @@ services:
     restart: always
     #volumes setting
     volumes:
+      - "${RABBITMQ_CONF_DIR}:/etc/rabbitmq"
       - "${RABBITMQ_DATA_DIR}:/var/lib/rabbitmq"
       - "${RABBITMQ_LOG_DIR}:/var/log/rabbitmq/log"
     networks:
