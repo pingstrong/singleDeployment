@@ -417,7 +417,7 @@ services:
     restart: always
     #volumes setting
     volumes:
-      - "${RABBITMQ_CONF_DIR}:/etc/rabbitmq"
+      - "${RABBITMQ_CONF_FILE}:/etc/rabbitmq/rabbitmq.conf"
       - "${RABBITMQ_DATA_DIR}:/var/lib/rabbitmq"
       - "${RABBITMQ_LOG_DIR}:/var/log/rabbitmq/log"
     networks:
