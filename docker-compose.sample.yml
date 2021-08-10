@@ -314,36 +314,36 @@ services:
   #  command:
   #     --auth
 
-  adminmongo:
-    image: mrvautin/adminmongo
-    container_name: adminmongo
+  #adminmongo:
+  #  image: mrvautin/adminmongo
+  #  container_name: adminmongo
+  #  ports:
+  #    - "${ADMINMONGO_HOST_PORT}:1234"
+  #  volumes:
+  #    - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
+  #  environment:
+  #    - HOST=0.0.0.0
+  #    - DB_HOST=mongodb
+  #    - DB_PORT=${MONGODB_CONTAINER_PORT}
+  #  restart: always
+  #  networks:
+  #    - spring_net
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
     ports:
-      - "${ADMINMONGO_HOST_PORT}:1234"
-    volumes:
-      - ${ADMINMONGO_CONF_FILE}:/app/user/config/app.json
+      - "${MONGOEXPRESS_PORT}:8081"
     environment:
-      - HOST=0.0.0.0
-      - DB_HOST=mongodb
-      - DB_PORT=${MONGODB_CONTAINER_PORT}
+      - ME_CONFIG_MONGODB_PORT=${MONGODB_CONTAINER_PORT}
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGODB_INITDB_ROOT_USERNAME}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGODB_INITDB_ROOT_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=user
+      - ME_CONFIG_BASICAUTH_PASSWORD=qwe666666
     restart: always
     networks:
       - spring_net
-
-  #mongo-express:
-   # image: mongo-express
-   # container_name: mongo-express
-   # ports:
-   #   - "${MONGOEXPRESS_PORT}:8081"
-    #environment:
-     # - ME_CONFIG_MONGODB_PORT=${MONGODB_CONTAINER_PORT}
-      #- ME_CONFIG_MONGODB_SERVER="mongodb"
-      #- ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGODB_INITDB_ROOT_USERNAME}
-      #- ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGODB_INITDB_ROOT_PASSWORD}
-      #- ME_CONFIG_BASICAUTH_USERNAME="user"
-      #- ME_CONFIG_BASICAUTH_PASSWORD="fairlypassword"
-    #restart: always
-    #networks:
-      #- spring_net
   
   #elasticsearch:
   #  build:
