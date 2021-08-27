@@ -1,4 +1,4 @@
-DockerPHP（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + ElasticSearch +  RabbitMQ）是一款全功能的PHP环境部署服务。
+SingleDeploy（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + ElasticSearch + Jenkins + Gitlab + Postgrepsql + RabbitMQ）是一款全功能的PHP单点环境部署服务。
 
 -----------------------------------
 使用前请联系作者：pingstrong@163.com
@@ -57,7 +57,7 @@ DockerPHP（Docker + Nginx + MySQL8/5 + Mariadb + PHP7/5 + Redis + Mongodb + Ela
 │   ├── esdata                  ElasticSearch 数据目录
 │   ├── mongo                   MongoDB 数据目录
 │   ├── mysql                   MySQL8 数据目录
-│   └── mysql5                  MySQL5 数据目录
+│   └── Mariadb                 Mariadb 数据目录
 ├── services                    服务构建文件和配置文件目录
 │   ├── elasticsearch           ElasticSearch 配置文件目录
 │   ├── mysql                   MySQL8 配置文件目录
