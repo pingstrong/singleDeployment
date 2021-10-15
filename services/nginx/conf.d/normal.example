@@ -81,6 +81,15 @@ server {
         deny all;
     }
     
+    #allow cross
+    #add_header 'Access-Control-Allow-Origin' $http_origin always;
+    #add_header 'Access-Control-Request-Method' 'GET,POST,OPTIONS,DELETE,PUT' always;
+    #add_header 'Access-Control-Allow-Credentials' 'true' always;
+    #add_header 'Access-Control-Allow-Headers' '*' always;
+    #add_header Access-Control-Allow-Credentials true always;
+    #if ( $request_method = 'OPTIONS' ) { 
+    #        return 204;
+    #}
 }
 
 
