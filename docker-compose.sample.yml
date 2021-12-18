@@ -30,6 +30,24 @@ services:
     networks:
       - spring_net
 
+  #django:
+    #build: 
+    #  context: ./services/django
+    #restart: always
+    #command: bash -c 'sh /www/django/bin/docker_start.sh'
+    #ports:
+    #  - "8000:8000"
+    #volumes:
+    #  - ./collectedstatic:/code/djangoblog/collectedstatic
+    #environment:
+    #  - DJANGO_MYSQL_DATABASE=djangoblog
+    #  - DJANGO_MYSQL_USER=root
+    #  - DJANGO_MYSQL_PASSWORD=DjAnGoBlOg!2!Q@W#E
+    #  - DJANGO_MYSQL_HOST=db
+    #  - DJANGO_MYSQL_PORT=3306
+    #  - DJANGO_MEMCACHED_LOCATION=memcached:11211
+    #container_name: django
+
   php73:
     build:
       context: ./services/php73
@@ -183,7 +201,7 @@ services:
   mysql8:
     image: mysql:${MYSQL8_VERSION}
     container_name: mysql8
-    command: --default-authentication-plugin=mysql_native_password
+    #command: --default-authentication-plugin=mysql_native_password
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime
@@ -198,22 +216,22 @@ services:
     networks:
       - spring_net
 
-  postgres:
-    image: postgres:${POSTGRESQL_VERSION}
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
-      POSTGRES_USER: ${POSTGRESQL_USER}
-      PGDATA: ${POSTGRESQL_PGDATA}
-      POSTGRES_DB: ${POSTGRESQL_DB}
-    volumes: 
-      - ${POSTGRESQL_DATA_PATH}:/var/lib/postgresql/data
-    ports: 
-      - ${POSTGRESQL_PORT}:5432
-    privileged: true
-    networks:
-      - spring_net
+  # postgres:
+  #   image: postgres:${POSTGRESQL_VERSION}
+  #   container_name: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+  #     POSTGRES_USER: ${POSTGRESQL_USER}
+  #     PGDATA: ${POSTGRESQL_PGDATA}
+  #     POSTGRES_DB: ${POSTGRESQL_DB}
+  #   volumes: 
+  #     - ${POSTGRESQL_DATA_PATH}:/var/lib/postgresql/data
+  #   ports: 
+  #     - ${POSTGRESQL_PORT}:5432
+  #   privileged: true
+  #   networks:
+  #     - spring_net
 
   #percona:
   #  image: percona:${PERCONA_VERSION}
@@ -280,20 +298,20 @@ services:
       - PMA_PORT=3306
       - TZ=$TZ
 
-  phpredisadmin:
-    image: erikdubbelboer/phpredisadmin:latest
-    container_name: phpredisadmin
-    ports:
-      - "${REDISMYADMIN_HOST_PORT}:80"
-    networks:
-      - spring_net
-    environment:
-      - REDIS_1_HOST=redis
-      - REDIS_1_PORT=6379
-      - ADMIN_USER=${REDIS_ADMIN_USER}
-      - ADMIN_PASS=${REDIS_ADMIN_PASS}
-      - REDIS_1_AUTH=${REDIS_ADMIN_AUTH}
-      - TZ=$TZ
+  # phpredisadmin:
+  #   image: erikdubbelboer/phpredisadmin:latest
+  #   container_name: phpredisadmin
+  #   ports:
+  #     - "${REDISMYADMIN_HOST_PORT}:80"
+  #   networks:
+  #     - spring_net
+  #   environment:
+  #     - REDIS_1_HOST=redis
+  #     - REDIS_1_PORT=6379
+  #     - ADMIN_USER=${REDIS_ADMIN_USER}
+  #     - ADMIN_PASS=${REDIS_ADMIN_PASS}
+  #     - REDIS_1_AUTH=${REDIS_ADMIN_AUTH}
+  #     - TZ=$TZ
 
   mongodb:
     image: mongo:${MONGODB_VERSION}
