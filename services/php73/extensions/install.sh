@@ -579,7 +579,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.8.5
+        tgzName=swoole-4.8.8
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1
