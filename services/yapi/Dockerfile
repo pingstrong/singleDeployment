@@ -25,9 +25,9 @@ RUN apk add --no-cache \
     && npm install pm2 -g
 
 ### clone yapi code
-RUN git clone https://github.com/thinkpanax/yapi.git vendors \
-    && cp vendors/config_example.json ./config.json \
-    && cd vendors \
+RUN git clone git@gitee.com:pingstrong/yapi.git vendors
+COPY ./config.json vendors
+RUN cd vendors \
     && npm install --production --registry https://registry.npm.taobao.org \
     && npm run install-server \
     && node server/app.js

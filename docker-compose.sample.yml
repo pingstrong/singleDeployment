@@ -29,8 +29,7 @@ services:
     privileged: true
     networks:
       - spring_net
-
-  #django:
+    #django:
     #build: 
     #  context: ./services/django
     #restart: always
@@ -116,7 +115,7 @@ services:
   #  networks:
   #    - spring_net   
 
-      
+
   php72:
     build:
       context: ./services/php72
@@ -151,7 +150,6 @@ services:
     networks:
       - spring_net
 
-
   php56:
     #build:
     #  context: ./services/php56
@@ -178,7 +176,6 @@ services:
     networks:
       - spring_net
 
- 
   mariadb:
     image: mariadb:${MARIADB_VERSION}
     container_name: mariadb
@@ -249,7 +246,7 @@ services:
   #    MYSQL_DATABASE: ${PERCONA_INI_DATABASE}
   #    MYSQL_USER: ${PERCONA_INI_USER}
   #    MYSQL_PASSWORD: ${PERCONA_INI_PASSWORD}
-      
+
   #  ports: 
   #    - "${PERCONA_PORT}:3306"
   #  expose: 
@@ -266,13 +263,13 @@ services:
       - ${DATA_DIR}/redis:/data/:rw
     restart: always
     privileged: true
-    entrypoint: ["redis-server", "/etc/redis.conf"]
+    entrypoint: [ "redis-server", "/etc/redis.conf" ]
     #command: redis-server --port 6379 --requirepass taokin2020  --appendonly yes
     environment:
       TZ: "$TZ"
     networks:
       - spring_net
-  
+
   adminer:
     image: adminer
     container_name: adminer
@@ -317,18 +314,18 @@ services:
     image: mongo:${MONGODB_VERSION}
     container_name: mongodb
     environment:
-        MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
-        MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
-        TZ: "$TZ"
+      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
+      TZ: "$TZ"
     volumes:
       - ${DATA_DIR}/mongo:/data/db:rw
       - ${DATA_DIR}/mongo_key:/mongo:rw
     ports:
-       - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
+      - "${MONGODB_HOST_PORT}:${MONGODB_CONTAINER_PORT}"
     restart: always
     privileged: true
     networks:
-       - spring_net
+      - spring_net
   #  command:
   #     --auth
 
@@ -362,7 +359,7 @@ services:
     restart: always
     networks:
       - spring_net
-  
+
   #elasticsearch:
   #  build:
   #    context: ./services/elasticsearch
@@ -440,163 +437,161 @@ services:
       - "${RABBITMQ_LOG_DIR}:/var/log/rabbitmq/log"
     networks:
       - spring_net
+      #zookeeper:
+      #  image: wurstmeister/zookeeper   ## 镜像
+      #  container_name: zookeeper
+      #  restart: always
+      #  ports:
+      #    - "2181:2181"                 ## 对外暴露的端口号
+      #  networks:
+      #    - spring_net
 
-      
-  #zookeeper:
-  #  image: wurstmeister/zookeeper   ## 镜像
-  #  container_name: zookeeper
-  #  restart: always
-  #  ports:
-  #    - "2181:2181"                 ## 对外暴露的端口号
-  #  networks:
-  #    - spring_net
-
-  #kafka:
-  #  image: wurstmeister/kafka       ## 镜像
-  #  container_name: kafka
-  #  volumes: 
-  #      - /etc/localtime:/etc/localtime ## 挂载位置（kafka镜像和宿主机器之间时间保持一直）
-  #  ports:
-  #    - "9092:9092"
-  #  restart: always
-  #  environment:
-  #    KAFKA_ADVERTISED_HOST_NAME: localhost   ## 修改:宿主机IP
-  #    KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181       ## 卡夫卡运行是基于zookeeper的
-  #    KAFKA_ADVERTISED_PORT: 9092
-  #    KAFKA_LOG_RETENTION_HOURS: 120
-  #    KAFKA_MESSAGE_MAX_BYTES: 10000000
-  #    KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
-  #    KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
-  #    KAFKA_NUM_PARTITIONS: 3
-  #    KAFKA_BROKER_ID: 1
-  #    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #    KAFKA_DELETE_RETENTION_MS: 1000
-  #  depends_on:
-  #    - zookeeper
+      #kafka:
+      #  image: wurstmeister/kafka       ## 镜像
+      #  container_name: kafka
+      #  volumes: 
+      #      - /etc/localtime:/etc/localtime ## 挂载位置（kafka镜像和宿主机器之间时间保持一直）
+      #  ports:
+      #    - "9092:9092"
+      #  restart: always
+      #  environment:
+      #    KAFKA_ADVERTISED_HOST_NAME: localhost   ## 修改:宿主机IP
+      #    KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181       ## 卡夫卡运行是基于zookeeper的
+      #    KAFKA_ADVERTISED_PORT: 9092
+      #    KAFKA_LOG_RETENTION_HOURS: 120
+      #    KAFKA_MESSAGE_MAX_BYTES: 10000000
+      #    KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      #    KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      #    KAFKA_NUM_PARTITIONS: 3
+      #    KAFKA_BROKER_ID: 1
+      #    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      #    KAFKA_DELETE_RETENTION_MS: 1000
+      #  depends_on:
+      #    - zookeeper
       #KAFKA_CREATE_TOPICS: "stream-in:1:1,stream-out:1:1"
-  #  networks:
-  #    - spring_net
+      #  networks:
+      #    - spring_net
 
-  #kafka-manager:  
-  #  image: sheepkiller/kafka-manager                ## 镜像：开源的web管理kafka集群的界面
-  #  container_name: kafka-manager
-  #  environment:
-        #ZK_HOSTS: 182.92.217.111                   ## 修改:宿主机IP
-  #      ZK_HOSTS: zookeeper:2181   ## zoo1:2181,zoo2:2181,zoo3:2181 
-  #      KAFKA_BROKERS: kafka:9092 ##kafka:9092,kafka2:9093,kafka3:9094
-  #      APPLICATION_SECRET: Spring
-  #  ports:  
-  #    - "9001:9000"                                 ## 暴露端口
-  #  networks:
-  #    - spring_net
+      #kafka-manager:  
+      #  image: sheepkiller/kafka-manager                ## 镜像：开源的web管理kafka集群的界面
+      #  container_name: kafka-manager
+      #  environment:
+      #ZK_HOSTS: 182.92.217.111                   ## 修改:宿主机IP
+      #      ZK_HOSTS: zookeeper:2181   ## zoo1:2181,zoo2:2181,zoo3:2181 
+      #      KAFKA_BROKERS: kafka:9092 ##kafka:9092,kafka2:9093,kafka3:9094
+      #      APPLICATION_SECRET: Spring
+      #  ports:  
+      #    - "9001:9000"                                 ## 暴露端口
+      #  networks:
+      #    - spring_net
 
-#  gitlab:
-#    image: gitlab/gitlab-ce:latest
-#    container_name: gitlab
-#    ports:
-#      - '3080:80'
-#      - '3443:443'
-#      - '3022:22'
-#    expose:
-#      - 443
-#      - 80
-#      - 22
-#    volumes:
-#      - ${GITLAB_CONF_DIR}:/etc/gitlab
-#      - ${GITLAB_LOG_DIR}:/var/log/gitlab
-#      - ${GITLAB_DATA_DIR}:/var/opt/gitlab:rw
-#    environment:
-#      - TZ="$TZ"
-#    restart: always
-#    privileged: true
-#    cap_add:
-#      - SYS_PTRACE
-#    networks:
-#      - spring_net
+      #  gitlab:
+      #    image: gitlab/gitlab-ce:latest
+      #    container_name: gitlab
+      #    ports:
+      #      - '3080:80'
+      #      - '3443:443'
+      #      - '3022:22'
+      #    expose:
+      #      - 443
+      #      - 80
+      #      - 22
+      #    volumes:
+      #      - ${GITLAB_CONF_DIR}:/etc/gitlab
+      #      - ${GITLAB_LOG_DIR}:/var/log/gitlab
+      #      - ${GITLAB_DATA_DIR}:/var/opt/gitlab:rw
+      #    environment:
+      #      - TZ="$TZ"
+      #    restart: always
+      #    privileged: true
+      #    cap_add:
+      #      - SYS_PTRACE
+      #    networks:
+      #      - spring_net
 
- 
 
-  #yapi:
-  #  image: thinkpanax/yapi:v1.0.1
-  #  container_name: yapi
-    #ports:
-    #  - 8069:3000
-  #  expose:
-  #    - 3000
-  #  volumes:
-  #    - ${YAPI_CONF_FILE}:/yapi/config.json:rw
-  #  environment:
-  #    - YAPI_ADMIN_ACCOUNT=${YAPI_ADMIN_ACCOUNT}
-  #    - YAPI_ADMIN_PASSWORD=${YAPI_ADMIN_PASSWORD}
-  #    - YAPI_CLOSE_REGISTER=${YAPI_CLOSE_REGISTER}
-  #    - YAPI_DB_SERVERNAME=mongodb
-  #    - YAPI_DB_PORT=27017
-  #    - YAPI_DB_DATABASE=yapi
-  #    - YAPI_MAIL_ENABLE=false
-  #    - YAPI_LDAP_LOGIN_ENABLE=false
-  #    - YAPI_PLUGINS=[]
-  #  depends_on:
-  #    - mongodb
-  #  links:
-  #    - mongodb
-  #  restart: always
-  #  privileged: true
-  #  cap_add:
-  #    - SYS_PTRACE
-  #  networks:
-  #    - spring_net
 
-  #ossrs:
-  #    image: ossrs/srs:latest
-  #    container_name: ossrs
-  #    ports:
-  #      - "${OSSRS_PUBLISH_PORT}:1935"
-  #      - "${OSSRS_API_PORT}:1985"
-  #      - "${OSSRS_HTTP_PORT}:8080"
-  #    volumes:
-  #      - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
-  #      - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
-        #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
-  #    restart: always
-  #    networks:
-  #      - spring_net
+      #yapi:
+      #  image: pingstrong/yapi
+      #  container_name: yapi
+      #ports:
+      #  - 8069:3000
+      #  expose:
+      #    - 3000
+      #  volumes:
+      #    - ${YAPI_CONF_FILE}:/yapi/config.json:rw
+      #  environment:
+      #    - YAPI_ADMIN_ACCOUNT=${YAPI_ADMIN_ACCOUNT}
+      #    - YAPI_ADMIN_PASSWORD=${YAPI_ADMIN_PASSWORD}
+      #    - YAPI_CLOSE_REGISTER=${YAPI_CLOSE_REGISTER}
+      #    - YAPI_DB_SERVERNAME=mongodb
+      #    - YAPI_DB_PORT=27017
+      #    - YAPI_DB_DATABASE=yapi
+      #    - YAPI_MAIL_ENABLE=false
+      #    - YAPI_LDAP_LOGIN_ENABLE=false
+      #    - YAPI_PLUGINS=[]
+      #  depends_on:
+      #    - mongodb
+      #  links:
+      #    - mongodb
+      #  restart: always
+      #  privileged: true
+      #  cap_add:
+      #    - SYS_PTRACE
+      #  networks:
+      #    - spring_net
 
-  #portainer:
-  #    container_name: portainer
-  #    image: portainer/portainer-ce
-  #   restart: always
-  #    ports:
-  #      - "${PORTAINER_PORT}:9000"
-  #    command: -H unix:///var/run/docker.sock
-  #    volumes:
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #      - portainer_data:/data
-  #    environment:
-  #       - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
-  #    networks:
-  #      - spring_net
+      #ossrs:
+      #    image: ossrs/srs:latest
+      #    container_name: ossrs
+      #    ports:
+      #      - "${OSSRS_PUBLISH_PORT}:1935"
+      #      - "${OSSRS_API_PORT}:1985"
+      #      - "${OSSRS_HTTP_PORT}:8080"
+      #    volumes:
+      #      - ${OSSRS_CONF_FILE}:/usr/local/srs/conf/srs.conf
+      #      - ${OSSRS_LOG_FILE}:/usr/local/srs/objs/srs.log
+      #- ${OSSRS_DVR_PATH}:/usr/local/srs/objs/nginx/html
+      #    restart: always
+      #    networks:
+      #      - spring_net
 
-  #jenkins:
-  #    container_name: jenkins
-  #    image: jenkinsci/blueocean
-  #    restart: always
-  #    privileged: true
-  #    user: root
-  #    ports:
-  #      - "9090:8080"
-  #      - "50000:50000"
-  #    volumes:
-  #      - '/etc/localtime:/etc/localtime:ro'
-  #      - '/root/.ssh/:/root/.ssh/:ro'
-  #      - ./data/jenkins/:/var/jenkins_home
-        #初始密码放在映射目录 data/jenkins/secrets/initialAdminPassword
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #    environment:
-  #       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
-  #    networks:
-  #      - spring_net     
+      #portainer:
+      #    container_name: portainer
+      #    image: portainer/portainer-ce
+      #   restart: always
+      #    ports:
+      #      - "${PORTAINER_PORT}:9000"
+      #    command: -H unix:///var/run/docker.sock
+      #    volumes:
+      #      - /var/run/docker.sock:/var/run/docker.sock
+      #      - portainer_data:/data
+      #    environment:
+      #       - ADMIN_PASSWORD=${PORTAINER_PASSWORD}
+      #    networks:
+      #      - spring_net
 
-############################################
+      #jenkins:
+      #    container_name: jenkins
+      #    image: jenkinsci/blueocean
+      #    restart: always
+      #    privileged: true
+      #    user: root
+      #    ports:
+      #      - "9090:8080"
+      #      - "50000:50000"
+      #    volumes:
+      #      - '/etc/localtime:/etc/localtime:ro'
+      #      - '/root/.ssh/:/root/.ssh/:ro'
+      #      - ./data/jenkins/:/var/jenkins_home
+      #初始密码放在映射目录 data/jenkins/secrets/initialAdminPassword
+      #      - /var/run/docker.sock:/var/run/docker.sock
+      #    environment:
+      #       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+      #    networks:
+      #      - spring_net     
+
+      ############################################
 volumes:
   portainer_data:
 networks:
