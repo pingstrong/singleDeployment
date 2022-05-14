@@ -490,6 +490,13 @@ if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
     fi
 fi
 
+if [[ -z "${EXTENSIONS##*,ssh2,*}" ]]; then
+    echo "---------- Install ssh2 ----------"
+    apk add --no-cache libssh2  libssh2-dev
+    installExtensionFromTgz ssh2-1.3.1
+fi
+
+
 if [[ -z "${EXTENSIONS##*,apcu,*}" ]]; then
     echo "---------- Install apcu ----------"
     installExtensionFromTgz apcu-5.1.20
@@ -579,7 +586,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.8.8
+        tgzName=swoole-4.8.9
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1
