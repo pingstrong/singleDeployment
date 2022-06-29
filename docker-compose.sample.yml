@@ -81,76 +81,76 @@ services:
     networks:
       - spring_net
 
-  #php8:
-  #  build:
-  #    context: ./services/php8
-  #    args:
-  #      PHP_VERSION: php:${PHP8_VERSION}
-  #      CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-  #      PHP_EXTENSIONS: ${PHP8_EXTENSIONS}
-  #      TZ: "$TZ"
-  #  container_name: php8
-  #  ports:
-  #    - 9581:9501
-  #    - 9582:9502
-  #    - 9583:9503
-  #  expose:
-  #    - 9000
-  #    - 9501
-  #    - 9502
-  #    - 9503
-  #  extra_hosts:
-  #    - "www.site1.com:172.17.0.1"
-  #  volumes:
-  #    - /etc/localtime:/etc/localtime
-  #    - ${SOURCE_DIR}:/www/:rw
-  #    - ${PHP8_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-  #    - ${PHP8_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-  #    - ${PHP8_LOG_DIR}:/var/log/php
-  #    - ${DATA_DIR}/composer:/tmp/composer
-  #  restart: always
-  #  privileged: true
-  #  cap_add:
-  #    - SYS_PTRACE
-  #  networks:
-  #    - spring_net   
+  php8:
+   build:
+     context: ./services/php81
+     args:
+       PHP_VERSION: php:${PHP8_VERSION}
+       CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+       PHP_EXTENSIONS: ${PHP8_EXTENSIONS}
+       TZ: "$TZ"
+   container_name: php8
+   ports:
+     - 9581:9501
+     - 9582:9502
+     - 9583:9503
+   expose:
+     - 9000
+     - 9501
+     - 9502
+     - 9503
+   extra_hosts:
+     - "www.site1.com:172.17.0.1"
+   volumes:
+     - /etc/localtime:/etc/localtime
+     - ${SOURCE_DIR}:/www/:rw
+     - ${PHP8_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+     #- ${PHP8_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+     - ${PHP8_LOG_DIR}:/var/log/php
+     - ${DATA_DIR}/composer:/tmp/composer
+   restart: always
+   privileged: true
+   cap_add:
+     - SYS_PTRACE
+   networks:
+     - spring_net   
 
 
-  php72:
-    build:
-      context: ./services/php72
-      args:
-        PHP_VERSION: php:${PHP72_VERSION}-fpm-alpine
-        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-        PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
-        TZ: "$TZ"
-    container_name: php72
-    ports:
-      - 9504:9504
-      - 9505:9505
-      - 9506:9506
-    expose:
-      - 9000
-      - 9504
-      - 9505
-      - 9506
-    extra_hosts:
-      - "www.site1.com:172.17.0.1"
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - ${SOURCE_DIR}:/www/:rw
-      - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ${PHP72_LOG_DIR}:/var/log/php
-      - ${DATA_DIR}/composer:/tmp/composer
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - spring_net
+  # php72:
+  #   build:
+  #     context: ./services/php72
+  #     args:
+  #       PHP_VERSION: php:${PHP72_VERSION}-fpm-alpine
+  #       CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+  #       PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
+  #       TZ: "$TZ"
+  #   container_name: php72
+  #   ports:
+  #     - 9504:9504
+  #     - 9505:9505
+  #     - 9506:9506
+  #   expose:
+  #     - 9000
+  #     - 9504
+  #     - 9505
+  #     - 9506
+  #   extra_hosts:
+  #     - "www.site1.com:172.17.0.1"
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  #     - ${SOURCE_DIR}:/www/:rw
+  #     - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+  #     - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+  #     - ${PHP72_LOG_DIR}:/var/log/php
+  #     - ${DATA_DIR}/composer:/tmp/composer
+  #   restart: always
+  #   privileged: true
+  #   cap_add:
+  #     - SYS_PTRACE
+  #   networks:
+  #     - spring_net
 
-  php56:
+  #php56:
     #build:
     #  context: ./services/php56
     #  args:
@@ -158,23 +158,23 @@ services:
     #    CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
     #    PHP_EXTENSIONS: ${PHP56_EXTENSIONS}
     #    TZ: "$TZ"
-    image: pingstrong/php56:v1
-    container_name: php56
-    expose:
-      - 9501
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - ${SOURCE_DIR}:/www/:rw
-      - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-      - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ${PHP56_LOG_DIR}:/var/log/php
-      - ${DATA_DIR}/composer:/tmp/composer
-    restart: always
-    privileged: true
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - spring_net
+    #image: pingstrong/php56:v1
+    #container_name: php56
+    #expose:
+    #  - 9501
+    #volumes:
+    #  - /etc/localtime:/etc/localtime
+    #  - ${SOURCE_DIR}:/www/:rw
+    #  - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+    #  - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+    #  - ${PHP56_LOG_DIR}:/var/log/php
+    #  - ${DATA_DIR}/composer:/tmp/composer
+    #restart: always
+    #privileged: true
+    #cap_add:
+    #  - SYS_PTRACE
+    #networks:
+    #  - spring_net
 
   mariadb:
     image: mariadb:${MARIADB_VERSION}
