@@ -571,7 +571,7 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz yaf-3.3.3
+        installExtensionFromTgz yaf-3.3.5
     else
         printf "\n" | pecl install yaf
         docker-php-ext-enable yaf
@@ -585,7 +585,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.8.9
+        tgzName=swoole-4.8.10
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1

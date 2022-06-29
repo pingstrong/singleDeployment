@@ -565,13 +565,18 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
-        installExtensionFromTgz yaf-3.3.2
+        installExtensionFromTgz yaf-3.3.5
     else
         printf "\n" | pecl install yaf
         docker-php-ext-enable yaf
     fi
 fi
 
+if [[ -z "${EXTENSIONS##*,ssh2,*}" ]]; then
+    echo "---------- Install ssh2 ----------"
+    apk add --no-cache libssh2  libssh2-dev
+    installExtensionFromTgz ssh2-1.3.1
+fi
 
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
     echo "---------- Install swoole ----------"
@@ -579,7 +584,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 
     if [[ "$?" = "1" ]]; then
          
-        tgzName=swoole-4.8.5
+        tgzName=swoole-4.8.10
         extensionName="${tgzName%%-*}"
         mkdir ${extensionName}
         tar -xf ${tgzName}.tgz -C ${extensionName} --strip-components=1
