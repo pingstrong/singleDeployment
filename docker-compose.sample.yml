@@ -81,6 +81,40 @@ services:
     networks:
       - spring_net
 
+  php74:
+      build:
+        context: ./services/php74
+        args:
+          PHP_VERSION: php:${PHP74_VERSION}-fpm-alpine
+          CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+          PHP_EXTENSIONS: ${PHP74_EXTENSIONS}
+          TZ: "$TZ"
+      container_name: php74
+      ports:
+        - 9505:9501
+        - 9506:9502
+        - 9507:9503
+      expose:
+        - 9000
+        - 9505
+        - 9506
+        - 9507
+      extra_hosts:
+        - "www.site1.com:172.17.0.1"
+      volumes:
+        - /etc/localtime:/etc/localtime
+        - ${SOURCE_DIR}:/www/:rw
+        - ${PHP74_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+        - ${PHP74_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+        - ${PHP74_LOG_DIR}:/var/log/php
+        - ${DATA_DIR}/composer:/tmp/composer
+      restart: always
+      privileged: true
+      cap_add:
+        - SYS_PTRACE
+      networks:
+        - spring_net
+
   php8:
    build:
      context: ./services/php81
